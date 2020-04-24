@@ -1,0 +1,18 @@
+define([],function () {
+
+
+
+	return {
+		contentEvent: {
+			get: function(context, key, variation) {
+				return {
+					data: {
+						placement: key,
+						variation: variation
+					}
+				};
+			}
+		}
+	};
+
+});
