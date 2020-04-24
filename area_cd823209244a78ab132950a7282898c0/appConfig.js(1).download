@@ -1,0 +1,504 @@
+/* eslint-disable */
+var LANGUAGE_CODE_ENGLISH = 'en';
+var initAppConfig = function(){
+    domainUrl = '';
+    authUrl = '';
+    appRoutes = ['logon'];
+    envConfig = {
+        'blue-app/app': {
+            'cache': clientEnvProps['serviceData']
+        },
+        'blue/siteMode': clientEnvProps['siteMode'],
+        'blue/siteData': {}
+    };
+    appConfig = {
+        'blue-app/app': {
+            defaultMocking: false,
+            'AUTH_INDEX': '/web/auth/#',
+            'AUTH_LOGOFF_PATH': 'logon',
+            'ACCOUNTS_INDEX': '/web/accounts#',
+            'PROFILE_INDEX': '/web/accounts#',
+            'ASSETS_INDEX': clientEnvProps['app.content.domain'] + '/common/assets/',
+            authDeviceCookie: clientEnvProps['app.devicecookie'],
+            rocketFuelAdOfferAudienceUrl: clientEnvProps['app.rocket.fuel.adofferaudience.url'],
+            rocketFuelAudienceUrl: clientEnvProps['app.rocket.fuel.audience.url'],
+            classicBaseUrl: clientEnvProps['app.classic.chaseonline.web.domain'] + '/',
+            privateBankingUrl: clientEnvProps['app.classic.jpmorgan.web.domain'] + '/',
+            authServiceCrossDomain: false,
+            geoImageUrl: clientEnvProps['feature.geoImageDisabled'] ? '' : ('https://' + clientEnvProps['app.cq5.host'] + '/content/geo-images/images'),
+            cq5ResourceBase: 'https://' + clientEnvProps['app.cq5.host'],
+            pubUrl: clientEnvProps['app.pub.domain'],
+            dpsAuthPath: '/web/auth/',
+            enableMarketingPreferencesOpinionLab: clientEnvProps['app.emailmarketingpreferences.opinionlab.enabled'],
+            gwmPortalDomainUrl: clientEnvProps['app.gwmportal.domain'],
+            gwmAlternativeAssetsPortalDomain: clientEnvProps['app.gwmConnectPortal.domain'],
+            cfapDomainUrl: clientEnvProps['app.cfap.domain'],
+            retirementCalculatorDomain: clientEnvProps['app.retirementCalculator.domain'],
+            contentAgreementHost: 'https://' + clientEnvProps['content.agreement.host'],
+            tagServerHost: clientEnvProps['app.tagManager.server'],
+            ULTIMATE_REWARDS_SITE: clientEnvProps['app.ultimate.rewards.web.domain'],
+            cbwelcomeDocUrl: clientEnvProps['app.cbwelcome.document.web.domain'],
+            cbwelcomeOpenUrl: clientEnvProps['app.cbwelcome.open.web.domain'],
+            idcDomainUrl: clientEnvProps['app.idc.host'],
+            classicDomains: {
+                CLASSIC_APPLY_URI: clientEnvProps['app.classic.apply.web.domain'],
+                CLASSIC_APPLYNOW_URI: clientEnvProps['app.classic.applynow.web.domain'],
+                CLASSIC_BANKING_URI: clientEnvProps['app.classic.banking.web.domain'],
+                CLASSIC_BORROWER_PORTAL_URI: clientEnvProps['app.classic.borrowerportal.web.domain'],
+                CLASSIC_CARDS_URI: clientEnvProps['app.classic.cards.web.domain'],
+                CLASSIC_CHASEONLINE_URI: clientEnvProps['app.classic.chaseonline.web.domain'],
+                CLASSIC_INVESTMENTS_URI: clientEnvProps['app.classic.investments.web.domain'],
+                CLASSIC_JPMORGAN_URI: clientEnvProps['app.classic.jpmorgan.web.domain'],
+                CLASSIC_PAYMENTS_URI: clientEnvProps['app.classic.payments.web.domain'],
+                CLASSIC_SERVICING_URI: clientEnvProps['app.classic.servicing.web.domain'],
+                CLASSIC_STATEMENTS_URI: clientEnvProps['app.classic.stmts.web.domain'],
+                CLASSIC_MESSAGE_CENTER_URI: clientEnvProps['app.classic.messagecenter.web.domain'],
+                CLASSIC_CHASEPAY_URI: clientEnvProps['app.classic.chasepay.web.domain'],
+                CLASSIC_APPLY_URI_ES: clientEnvProps['app.classic.apply.espanol.web.domain'],
+                CLASSIC_BANKING_URI_ES: clientEnvProps['app.classic.banking.espanol.web.domain'],
+                CLASSIC_CARDS_URI_ES: clientEnvProps['app.classic.cards.espanol.web.domain'],
+                CLASSIC_CHASEONLINE_URI_ES: clientEnvProps['app.classic.chaseonline.espanol.web.domain'],
+                CLASSIC_PAYMENTS_URI_ES: clientEnvProps['app.classic.payments.espanol.web.domain'],
+                CLASSIC_SERVICING_URI_ES: clientEnvProps['app.classic.servicing.espanol.web.domain'],
+                CLASSIC_STATEMENTS_URI_ES: clientEnvProps['app.classic.stmts.espanol.web.domain'],
+                CLASSIC_MESSAGE_CENTER_URI_ES: clientEnvProps['app.classic.messagecenter.espanol.web.domain'],
+                CLASSIC_CHASEPAY_URI_ES: clientEnvProps['app.classic.chasepay.espanol.web.domain'],
+                CLASSIC_CWM_TRADING: clientEnvProps['app.classic.cwmtrading.web.domain'],
+                CLASSIC_QUICKDEPOSIT_URI: clientEnvProps['app.classic.quickdeposit.web.domain'],
+                CLASSIC_QUICKDEPOSIT_URI_ES: clientEnvProps['app.classic.quickdeposit.espanol.web.domain']
+            },
+            thirdPartyClassicDomains: {
+                CLASSIC_CWM_TRADING: clientEnvProps['app.classic.cwmtrading.web.domain'],
+                CLASSIC_IDC: clientEnvProps['app.classic.idc.web.domain']
+            },
+            dashboardUrl: 'https://SECUREPOD/web/auth/dashboard', // deprecated
+            secureDomain: 'https://SECUREPOD',
+            userId: (window.logonFieldFill || {}).userId,
+            password: (window.logonFieldFill || {}).password
+
+        },
+        'require': {
+            baseUrl: clientEnvProps['app.content.domain'] + '/',
+            paths: {
+                'appkit-utilities': '@ccb-blueutilities/blue-utilities/dist/appkit-utilities/js',
+                appkit: 'appkit/js',
+                'blue-blocks': 'blue-connect',
+                'blue-spec-shared': 'ccb-bluespec-shared/dist/spec',
+                analytics: '@ccb-blueanalytics/blue-analytics/dist/analytics/js',
+                'blue-ads': '@ccb-blueads/blue-ads/dist/blue-messages/js',
+                'blue-tags': '@ccb-bluetags/blue-tags/dist/blue-tags/js',
+                screenmap: 'ccb-bluespec-cxo/dist/screen-map',
+                mfaWizard: 'logon/mfaWizard/js',
+                extra: 'logon/extra/js',
+                logon: 'logon/js',
+                common: 'common/js',
+                dashboard: 'dashboard/js',
+                bluespec: 'ccb-bluespec-cxo/dist/spec',
+                'blue-ui': 'blue-ui/dist/blue-ui/js',
+                privacyPreferences: 'privacyPreferences/dist/privacy-preferences-cmpt/js',
+                ractive: 'ractive/ractive',
+                hammerjs: 'hammerjs/hammer',
+                navigation: '@ccb-blueblocks/navigation-cntlr/dist/navigation-cntlr/js',
+                navigationKeys: '@ccb-cxo/navigation-keys/dist'
+                // ,
+                // 'blue-legacy': 'blue-legacy/dist/blue-legacy/js'
+            },
+            bundles: {
+                'navigation/manifest': ['navigation/lib/navigationHelper']
+            }
+        },
+        'blue/log': {
+            ALL: {
+                level: clientDefaultLogLevel,
+                enabled: clientDefaultLogEnabled
+            },
+            appender: {
+                console: {
+                    level: clientConsoleLogLevel,
+                    enabled: clientConsoleLogEnabled
+                },
+                analytics:{
+                    level: clientAnalyticsLogLevel,
+                    enabled: clientAnalyticsLogEnabled
+                }
+            }
+        },
+        'analytics/eventTracker': {
+            enableAnalytics: clientEnvProps['app.analytics.enabled'],
+            analytics: {
+                bufferInterval: clientEnvProps['app.analytics.bufferInterval.millisec'],
+                maxReattempts: clientEnvProps['app.analytics.maxReattempts.count'],
+                cooloffPeriod: clientEnvProps['app.analytics.cooloffPeriod.millisec'],
+                eventTypes: {
+                    webEvent: clientEnvProps['app.analytics.webEvent.enabled'],
+                    screenEvent: clientEnvProps['app.analytics.screenEvent.enabled'],
+                    variableSettingsEvent: clientEnvProps['app.analytics.variableSettingsEvent.enabled'],
+                    decisionedContentEvent: clientEnvProps['app.analytics.decisionedContentEvent.enabled'],
+                    adsEvent: clientEnvProps['app.analytics.adsEvent.enabled'],
+                    loggingEvent: clientEnvProps['app.analytics.loggingEvent.enabled'],
+                    formFieldEvent: clientEnvProps['app.analytics.formFieldEvent.enabled']
+                }
+            }
+        },
+        'common/lib/feature': {
+            feature: {
+                enhancedDeviceInfo: clientEnvProps['feature.enhancedDeviceInfo'],
+                mobileAppValidation: clientEnvProps['feature.logon.mobileAppValidation'],
+                enableFYPInRO: clientEnvProps['feature.logon.enableFYPInRO'],
+                mfaCodeGenerator: clientEnvProps['feature.logon.mfaCodeGenerator'],
+                forceMobileAuth: clientEnvProps['feature.logon.forceMobileAuth'],
+                blockIE: clientEnvProps['feature.logon.blockIE'],
+                lobCodesEnableIE: clientEnvProps['feature.logon.lobCodesEnableIE'],
+                navKeysEnableIE: clientEnvProps['feature.logon.navKeysEnableIE'],
+                treatmentsEnableIE: clientEnvProps['feature.logon.treatmentsEnableIE'],
+                implementADAFeatures: clientEnvProps['feature.logon.implementADAFeatures'],
+                allowInAppBrowsers: clientEnvProps['feature.logon.allowInAppBrowsers']
+            },
+        },
+        'logon/service/content': {
+            remoteContentUrl: 'https://' + clientEnvProps['app.cq5.host'] + '/content/resource-bundles/:site/:version/:language/bundles.json/:brand/logon.json',
+            useBrandContent: clientEnvProps['app.content.useBrandContent'],
+            useLocalContent: false,
+            contentLanguage: appLanguage || LANGUAGE_CODE_ENGLISH,
+            contentSite: clientEnvProps['app.cq5.env'],
+            contentVersion: clientEnvProps['app.content.bundleVersion'],
+            contentUrls: {
+                app: {
+                    remote: 'https://' + clientEnvProps['app.cq5.host'] + '/content/resource-bundles/:site/:version/:language/bundles.json/:brand/logon.json',
+                    local: ''
+                }
+            }
+        },
+        'logon/lib/isIEBlocked': {
+            lobCodesAllowedOnIE: clientEnvProps['app.logon.lobCodesAllowedOnIE'],
+            navKeysAllowedOnIE: clientEnvProps['app.logon.navKeysAllowedOnIE'],
+            treatmentsAllowedOnIE: clientEnvProps['app.logon.treatmentsAllowedOnIE'],
+            lobCodesDeniedOnIE: clientEnvProps["app.logon.lobCodesDeniedOnIE"],
+            navKeysDeniedOnIE: clientEnvProps["app.logon.navKeysDeniedOnIE"],
+            treatmentsDeniedOnIE: clientEnvProps["app.logon.treatmentsDeniedOnIE"]
+        },
+        'extra/controller/mfa': {
+            defaultInitialPollingDelay: clientEnvProps['app.logon.mobileAuth.defaultInitialPollingDelay'],
+            defaultPollingDelay: clientEnvProps['app.logon.mobileAuth.defaultPollingDelay']
+        },
+        'blue-app/validate/types': {
+            'types': {
+                Password: {
+                    constraints: [{
+                        type: 'NonConsecutiveAlphaNumerics',
+                        params: {
+                            maxSeqential: 3
+                        }
+                    }, {
+                        type: 'NonRepeatingAlphaNumerics',
+                        params: {
+                            maxRepeating: 2
+                        }
+                    }]
+                }
+            }
+        },
+        'appkit-utilities/sessionTimeout/timeout': {
+            disableCrossDomainCommunication: true
+        },
+        'services': []
+    };
+    if(clientEnvProps['app.blueJSVersion.enabled']){
+        blueDomain = clientEnvProps['app.blue.domain'];
+    }
+};
+
+var loaderCallback = function() {
+
+    var doc = document,
+        versionedAssetsEnabled = clientEnvProps['app.versionedAssetsEnabled'],
+        msgDomain = (doc.location.protocol + '//' + doc.location.hostname + (doc.location.port ? ':' + doc.location.port : '')).toLowerCase(),
+        contentPackages = {},
+        contentWhitelist = { packages: contentPackages },
+        lang = LANGUAGE_CODE_ENGLISH,
+        brand = '',
+        blueBootPath = 'blue-boot/dist/blue-boot/js/main',
+        blueVendorPath = 'blue-vendor/dist/blue-vendor/js/main',
+        blueCorePath = 'blue-core/dist/blue/js/main',
+        blueAppPath = 'blue-app/dist/blue-app/js/main',
+        blueViewPath = 'blue-view/dist/blue-view/js/main',
+        blueViewRactivePath = 'blue-view-ractive/dist/blue-view-ractive/js/view',
+        blueDomain = clientEnvProps['app.content.domain'] + '/',
+        logonBootPath = 'logon/js/boot',
+        dashboardMainPath = 'dashboard/js/main',
+        payMultipleBillsMainPath = 'dashboard/payMultipleBills/js/main',
+        profileMainPath = 'dashboard/profile/js/main',
+        appkitMainPath = 'appkit/js/main',
+        commonkitMain = 'common/js/kit/main',
+        appDomain = blueDomain,
+        nonVersionedAppDomain = appDomain,
+        blueUICSSPath = 'common/assets/blue-ui',
+        logonCSSPath = 'logon/assets/logon';
+
+    /**
+     * Helper function to get param from URL query string
+     *
+     * @param {string} paramName - name of param to get
+     */
+    function getParam(paramName) {
+        var queries = doc.location.search,
+            params;
+
+        if (!queries) {
+            return null;
+        }
+        // URLSearchParams unsupported in IE
+        if ('URLSearchParams' in window) {
+            params = new URLSearchParams(queries.substring(1)); // remove '?' character
+            return params.get(paramName);
+        } else {
+            params = new RegExp('[?&]' + paramName + '(=([^&#]*)|&|#|$)', 'i').exec(queries);
+            return (params && params[2]);
+        }
+    }
+
+    if (clientEnvProps['app.blueJSVersion.enabled']) {
+        var versionedRactivePath = '/blue-view-ractive/dist/blue-view-ractive/1.1.0/js';
+        blueBootPath = clientEnvProps['app.blueBoot.version'] + '/main-ver';
+        blueVendorPath = clientEnvProps['app.blueVendor.version'] + '/main';
+        blueCorePath = clientEnvProps['app.blue.version'] + '/main';
+        blueAppPath = clientEnvProps['app.blueApp.version'] + '/main';
+        blueViewPath = clientEnvProps['app.blueView.version'] + '/main';
+        blueViewRactivePath = (clientEnvProps['app.blueViewRactive.version'] || versionedRactivePath) + '/view';
+        blueDomain = clientEnvProps['app.blue.domain'];
+    }
+
+    if (versionedAssetsEnabled) {
+        logonBootPath = clientEnvProps['app.versionedAssets.js.logon.boot'];
+        dashboardMainPath = clientEnvProps['app.versionedAssets.js.dashboard.main'];
+        payMultipleBillsMainPath = clientEnvProps['app.versionedAssets.js.payMultipleBills.main'];
+        profileMainPath = clientEnvProps['app.versionedAssets.js.profile.main'];
+        appkitMainPath = clientEnvProps['app.versionedAssets.js.appkit.main'];
+        commonkitMain = clientEnvProps['app.versionedAssets.js.common.kit.main'];
+        appDomain = clientEnvProps['app.versionedAssets.content.domain'];
+    }
+
+    var blueLibPaths = [blueBootPath, blueVendorPath, blueCorePath, blueAppPath, blueViewPath, blueViewRactivePath],
+        appPaths = [logonBootPath, dashboardMainPath, payMultipleBillsMainPath, profileMainPath, appkitMainPath, commonkitMain];
+
+    try {
+        top.postMessage(JSON.stringify({ command: 'netStart' }), msgDomain);
+    } catch (ignore) {}
+
+    document.cookie.replace(/\bPC_1_0=([^;]+)/, function(cookie, PC_1_0) {
+        decodeURIComponent(PC_1_0).replace(/locale=([^_|]+)/, function(config, locale) {
+            if(locale && locale !=='undefined'){
+                    lang = locale;
+                }
+        });
+    });
+    if (clientEnvProps['app.content.useBrandContent']) {
+        var treatment = getParam('treatment'),
+            expires;
+        if (treatment && treatment.toUpperCase() === 'JPO') {
+            brand = 'JPMORGAN/';
+            expires = new Date();
+            expires.setYear(expires.getFullYear() + 1);
+            // if treatment param is set to JPO, we know user is JPO;
+            // thus, we can set the brand var and cookie appropriately.
+           document.cookie = 'BRAND_1_0=JPMORGAN; path=/; domain=.chase.com; secure; expires=' + expires.toUTCString();
+        }
+        document.cookie.replace(/\bBRAND_1_0=([^;]+)/, function(cookie, BRAND_1_0) {
+                brand = BRAND_1_0 + '/';
+        });
+    }
+    var contentWhitelistHost = 'https://' + clientEnvProps['app.cq5.host'] + '/content/resource-bundles/' + clientEnvProps['app.cq5.env'] + '/' + clientEnvProps['app.content.bundleVersion'] + '/' + lang + '/bundles.json/';
+    contentPackages[contentWhitelistHost + brand] = {
+      json: {
+        app: 0,
+        accounts: 0,
+        convoDeck: 0,
+        payMultipleBills: 0,
+        profile: 0
+      }
+    };
+    (contentPackages[contentWhitelistHost + brand] || (contentPackages[contentWhitelistHost + brand] = {json: {}})).json.logon = 0;
+    loader.init(contentWhitelist);
+
+    var jsPackages = {},
+        jsWhitelist = { packages: jsPackages };
+
+    function addWhitelistJavaScript(domain, paths) {
+        var jsPaths = {},
+            jsContainer = jsPackages[domain];
+
+        if (jsContainer && jsContainer.js) {
+            jsPaths = jsContainer.js;
+        } else {
+            jsPackages[domain] = { js: jsPaths };
+        }
+
+        paths.forEach(function (path) {
+            jsPaths[path] = 0;
+        });
+    }
+
+    jsPackages[nonVersionedAppDomain] = {
+        js: {},
+        css: {
+            'common/assets/blue-ui': 0,
+            'logon/assets/logon': 0,
+            'dashboard/assets/dashboard': 0
+        }
+    };
+
+    addWhitelistJavaScript(blueDomain, blueLibPaths);
+    addWhitelistJavaScript(appDomain, appPaths);
+
+    loader.init(jsWhitelist);
+
+    loader.ready(function() {
+        var errorUrl = clientEnvProps['app.genericErrorPageUri'],
+            iOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream),
+            createImmediateLoadPackage = function createImmediateLoadPackage(path) {
+                return {
+                    path: path,
+                    failure: loader.handlers.ignore,
+                    defer: false
+                };
+            },
+            createPackageWithFatalFailure = function createPackageWithFatalFailure(path) {
+                var pkg = createImmediateLoadPackage(path);
+                pkg.failure = loader.handlers.redirect(clientEnvProps['app.error.scriptErrorPageUri']);
+                return pkg;
+            }
+            loadGroups = [];
+
+        loadGroups.push([
+            createImmediateLoadPackage(blueUICSSPath),
+            createImmediateLoadPackage(logonCSSPath),
+            //
+            // the next package gets set with defer:false, so it will run before anything in the next
+            // load group runs. this ensures define()/require() are available when the next load group runs.
+            //
+            createPackageWithFatalFailure(blueBootPath),
+            blueVendorPath,
+            blueCorePath,
+            blueAppPath,
+            blueViewPath,
+            blueViewRactivePath,
+            logonBootPath,
+            'logon' // logon.json content bundle
+        ]);
+
+        //
+        // these packages use define()/require(), so they must be in a load group after blue-boot runs.
+        //
+        // we also set defer:false for the appkit package, so it runs immediately on load, and the loader
+        // won't complete before they are finished running. this ensures that app startup doesn't accidentally
+        // require() individual modules, and doesn't accidentally download the associated individual files,
+        // that are already contained in the appkit package.
+        //
+        loadGroups.push([
+            createImmediateLoadPackage(appkitMainPath),
+            createImmediateLoadPackage(commonkitMain)
+        ]);
+
+        loader.loadGroups(loadGroups, {
+            failure: loader.handlers.redirect(errorUrl),
+            defer: true,
+            precache: !iOS
+        });
+
+        var groupCnt = 0,
+            iosPreloadGroups = [
+                [dashboardMainPath],
+                [payMultipleBillsMainPath],
+                [profileMainPath]
+            ],
+            defaultPreloadGroups = [
+                ['app', 'convoDeck', 'accounts'],                        // dashboard .json content preload
+                ['common/assets/blue-ui', 'dashboard/assets/dashboard'], // dashboard CSS preload
+                [dashboardMainPath],                                     // dashboard JS preload
+                [payMultipleBillsMainPath, 'payMultipleBills'],          // payMultipleBills area JS and content preload
+                [profileMainPath, 'profile']                             // profile area JS and content preload
+            ],
+            preloadGroups = iOS ? iosPreloadGroups : defaultPreloadGroups,
+            preload = function() {
+                var group = preloadGroups[groupCnt++];
+                if (group) {
+                    setTimeout(function() {
+                        loader.complete(preload);
+                        loader.loadGroups([group], {
+                            defer: true,
+                            failure: loader.handlers.ignore
+                        });
+                    }, 0);
+                }
+            };
+
+        loader.complete(function() {
+            if (self === top) {
+                preload();
+            } else {
+                top.postMessage(JSON.stringify({ command: 'netFinish' }), msgDomain);
+            }
+            require(['blue-boot/boot']);
+            clientEnvProps = null;
+        });
+    });
+};
+
+var processClientEnvProps = function() {
+
+    var booleanProps = [
+        'app.analytics.enabled',
+        'app.analytics.webEvent.enabled',
+        'app.analytics.screenEvent.enabled',
+        'app.analytics.variableSettingsEvent.enabled',
+        'app.analytics.decisionedContentEvent.enabled',
+        'app.analytics.adsEvent.enabled',
+        'app.analytics.loggingEvent.enabled',
+        'app.analytics.formFieldEvent.enabled',
+        'app.content.useBrandContent',
+        'app.blueJSVersion.enabled',
+        'app.versionedAssetsEnabled',
+        'app.emailmarketingpreferences.opinionlab.enabled',
+        'feature.geoImageDisabled',
+        'feature.logon.mfaCodeGenerator',
+        'feature.logon.blockIE',
+        'feature.logon.lobCodesEnableIE',
+        'feature.logon.navKeysEnableIE',
+        'feature.logon.treatmentsEnableIE',
+        'feature.logon.allowInAppBrowsers'
+    ],
+    numberProps = [
+        'app.analytics.bufferInterval.millisec',
+        'app.analytics.maxReattempts.count',
+        'app.analytics.cooloffPeriod.millisec',
+        'app.logon.mobileAuth.defaultInitialPollingDelay',
+        'app.logon.mobileAuth.defaultPollingDelay'
+    ],
+    arrayProps = [
+        'app.logon.lobCodesAllowedOnIE',
+        'app.logon.navKeysAllowedOnIE',
+        'app.logon.treatmentsAllowedOnIE',
+        'app.logon.lobCodesDeniedOnIE',
+        'app.logon.navKeysDeniedOnIE',
+        'app.logon.treatmentsDeniedOnIE'
+        ],
+    i,
+    prop,
+    val;
+
+    function parseProps(propNames) {
+        for (i = propNames.length - 1; i >= 0; i--) {
+            prop = propNames[i];
+            val = clientEnvProps[prop];
+            if (val) {
+                clientEnvProps[prop] = JSON.parse(val);
+            }
+        }
+    }
+    [booleanProps, numberProps, arrayProps].forEach(parseProps);
+};
+
+processClientEnvProps();
+initAppConfig();
+initBrowserDetect(); //Call browser detect before loaderCallback
+/* eslint-enable */

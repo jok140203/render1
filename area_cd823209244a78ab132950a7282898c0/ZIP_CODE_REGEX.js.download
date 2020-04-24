@@ -1,0 +1,2 @@
+define([],function(){"use strict";return/^[0-9]{5}$/});
+//# sourceMappingURL=../../../../../../../../sourcemap/blue-app/dist/2.18.0/blue-app/js/validate/var/ZIP_CODE_REGEX.js.map
