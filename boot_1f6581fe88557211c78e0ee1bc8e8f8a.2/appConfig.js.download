@@ -1,0 +1,2280 @@
+/* jshint ignore:start */
+var propTypes = {
+    'ads.tracking.disabled': 'Boolean',
+    'app.gallery.enableNavigationToClassicRewards': 'Boolean',
+    'app.creditCardAccountServicing.cli.preConfigCardCount': 'Number',
+    'app.blueJSVersion.enabled': 'Boolean',
+    'app.manageLinkedAccounts.disabled': 'Boolean',
+    'app.pinChange.isDisabled': 'Boolean',
+    'app.payments.enableAmazonPromotionalOffer':'Boolean',
+    'app.escrow.enabled': 'Boolean',
+    'app.pmblog.enabled': 'Boolean',
+    'app.qpzelle.killswitch': 'Boolean',
+    'thirdPartyEntryQP': 'Boolean',
+    'app.globalnav.enabled': 'Boolean',
+    'app.ads.enabled': 'Boolean',
+    'app.globalErrorHandler.enabled': 'Boolean',
+    'app.integratedSignout.enabled': 'Boolean',
+    'app.voc.complaintescalation.enabled': 'Boolean',
+    'app.voc.enabled': 'Boolean',
+    'enableBrandThemes': 'Boolean',
+    'enableAchPayments': 'Boolean',
+    'app.drip.enabled': 'Boolean',
+    'app.edaArea.version': 'String',
+    'qdDeploymentServerUrl': 'String',
+    'qdMacDeploymentServerUrl': 'String',
+    'qdSmartScannerInstallPdfUrl': 'String',
+    'app.investments.enabled': 'Boolean',
+    'app.investments.learninginsights.enabled': 'Boolean',
+    'app.investments.positions.viewTaxLots.enabled': 'Boolean',
+    'app.investments.positions.chunkLoader.lms.chunkSize': 'Number',
+    'app.investments.positions.chunkLoader.xs.chunkSize': 'Number',
+    'app.investments.transactions.chunkLoader.xs.chunkSize': 'Number',
+    'app.investments.transactions.chunkLoader.lms.chunkSize': 'Number',
+    'app.investments.rgl.chunkLoader.xs.chunkSize': 'Number',
+    'app.investments.rgl.chunkLoader.lms.chunkSize': 'Number',
+    'app.investments.assetclass.chunkSize': 'Number',
+    'app.investments.assetclass.chunkSizeIE': 'Number',
+    'app.investments.maxAccountGroupSize': 'Number',
+    'app.investments.accountAccordianSize':'Number',
+    'app.investments.aat.enabled': 'Boolean',
+    'app.cxo.daf.percentage.annual.fee': 'String',
+    'app.investments.plp.aat.enabled': 'Boolean',
+    'app.investments.plp.aat.pricingSliderInterval': 'Number',
+    'app.investments.openAutomated.enabled': 'Boolean',
+    'app.investments.savingsToInvest.enabled': 'Boolean',
+    'app.investments.savingsToInvest.minAmountToInvest': 'Number',
+    'app.investments.savingsToInvest.minMonthlyContributionAmount': 'Number',
+    'app.investments.savingsToInvest.makeYourMoneyWorkDefaultMonthlyValue': 'Number',
+    'app.investments.savingsToInvest.savingsProjectionMultiplier': 'Number',
+    'app.investments.savingsToInvest.simulationTimeHorizon': 'Number',
+    'app.investments.savingsToInvest.defaultRainyDayFundTenure': 'Number',
+    'app.investments.savingsToInvest.novemberDisclosures.enabled': 'Boolean',
+    'app.investments.eda.goalType': 'String',
+    'app.investments.eda.riskProfile': 'String',
+    'app.investments.eda.monthlyContribution': 'Number',
+    'app.investments.eda.timeHorizon': 'String',
+    'app.investments.eda.amountToInvest': 'Number',
+    'app.investments.eda.retirementAgeRangeId': 'String',
+    'app.investments.eda.minimumContributionAmount': 'Number',
+    'app.investments.eda.managementFee': 'Number',
+    'app.investments.eda.calculatedManagementFee': 'Number',
+    'app.investments.eda.minimumBalance': 'Number',
+    'app.investments.JPMCSimulate.enabled': 'Boolean',
+    'app.investments.PlpNonSegment.enabled': 'Boolean',
+    'app.investments.totalUglChangePercentage.enabled': 'Boolean',
+    'app.investments.s2iEntry.enabled': 'Boolean',
+    'app.investments.trade.options.enabled': 'Boolean',
+    'app.investments.dailyvalue.enabled': 'Boolean',
+    'app.investments.financialProfileComplete.enabled': 'Boolean',
+    'app.investments.contentAdModule.enabled': 'Boolean',
+    'app.tcp.enabled': 'Boolean',
+    'app.oobe.enabled': 'Boolean',
+    'app.tagManager.enabled': 'Boolean',
+    'showCollectionsSpeedbump': 'Boolean',
+    'app.payments.brokerageTransfersEnabled': 'Boolean',
+    'app.payments.distributionTransfersEnabled': 'Boolean',
+    'app.payments.securitiesTransfersEnabled': 'Boolean',
+    'app.payments.journalsTransfersEnabled': 'Boolean',
+    'app.payments.brokerageToExternalTransfersUnsupported': 'Boolean',
+    'app.payments.brokerageToExternalTransfersUnsupportedPrivateBankOnly': 'Boolean',
+    'app.payments.brokerageToExternalTransfersUnsupportedSecuritiesOnly': 'Boolean',
+    'app.payments.merchantdirectory.enabled': 'Boolean',
+    'app.profile.financialProfile.enabled': 'Boolean',
+    'app.financialProfileComplete.enabled': 'Boolean',
+    'app.analytics.enabled': 'Boolean',
+    'app.analytics.webEvent.enabled': 'Boolean',
+    'app.analytics.screenEvent.enabled': 'Boolean',
+    'app.analytics.variableSettingsEvent.enabled': 'Boolean',
+    'app.analytics.decisionedContentEvent.enabled': 'Boolean',
+    'app.analytics.adsEvent.enabled': 'Boolean',
+    'app.analytics.loggingEvent.enabled': 'Boolean',
+    'app.analytics.impressionEvent.enabled': 'Boolean',
+    'app.megamenu.daoD2DAutoLoanLink.enabled': 'Boolean',
+    'app.analytics.formFieldEvent.enabled': 'Boolean',
+    'app.analytics.experimentImpressionEvent.enabled': 'Boolean',
+    'app.analytics.experimentActionEvent.enabled': 'Boolean',
+    'app.analytics.pageInventoryEvent.enabled': 'Boolean',
+    'app.analytics.maxReattempts.count': 'Boolean',
+    'app.analytics.cooloffPeriod.millisec': 'Boolean',
+    'app.useLocalizedTemplates': 'Boolean',
+    'app.documents.shareholder.enabled': 'Boolean',
+    'app.documents.tax.export.enabled': 'Boolean',
+    'app.documents.restrictedAccountTypesForDocumentDisplay': 'Array',
+    'app.asset.splitCSS': 'Boolean',
+    'app.podData.enabled': 'Boolean',
+    'app.content.useBrandContent': 'Boolean',
+    'app.ideas.enabled': 'Boolean',
+    'app.plpInvestmentAccounts.enabled': 'Boolean',
+    'app.plpInvestmentAccountsJPO.enabled': 'Boolean',
+    'feature.gwmAccountsSummaryBlade':'Boolean',
+    'feature.gwmActionCenter': 'Boolean',
+    'feature.gwmAdvisorModule': 'Boolean',
+    'feature.gwmAggregateTransactions': 'Boolean',
+    'feature.gwmAlternativeAssetsPortalEnabled': 'Boolean',
+    'feature.gwmCustomGroups': 'Boolean',
+    'feature.gwmOverview': 'Boolean',
+    'feature.gwmOverviewXS': 'Boolean',
+    'feature.gwmTaxCenter': 'Boolean',
+    'feature.marketsResearchEnabled': 'Boolean',
+    'feature.customPositionsViewEnabled': 'Boolean',
+    'feature.jpmsPerformanceEnabled': 'Boolean',
+    'feature.customerAnnouncementsPassThroughEnabled': 'Boolean',
+    'feature.customerAnnouncementsEnabled': 'Boolean',
+    'feature.cmlCustomerAnnouncementsEnabled': 'Boolean',
+    'feature.creCustomerAnnouncementsEnabled': 'Boolean',
+    'feature.jpoCustomerAnnouncementsEnabled': 'Boolean',
+    'feature.cpoCustomerAnnouncementsEnabled': 'Boolean',
+    'feature.cpcCustomerAnnouncementsEnabled': 'Boolean',
+    'feature.cboCustomerAnnouncementsEnabled': 'Boolean',
+    'app.fps.enabled': 'Boolean',
+    'feature.payments.ctlAndLoanIQ.enabled': 'Boolean',
+    'app.pddcollections.enabled': 'Boolean',
+    'app.pddpayments.enabled': 'Boolean',
+    'app.rocketFuelAds.enabled': 'Boolean',
+    'app.profile.beneficiaries.enabled': 'Boolean',
+    'app.versionedAssetsEnabled': 'Boolean',
+    'app.emailmarketingpreferences.opinionlab.enabled': 'Boolean',
+    'app.investments.realizedGainOrLoss.enabled': 'Boolean',
+    'app.achFileUpload.enabled': 'Boolean',
+    'app.commercialloans.enabled': 'Boolean',
+    'app.cashflow.enabled':'Boolean',
+    'app.quickDeposit.enabled': 'Boolean',
+    'app.viewRealTimeQuotesEnabled': 'Boolean',
+    'app.viewCorporateActionsEnabled': 'Boolean',
+    'app.electYourSharesEnabled': 'Boolean',
+    'app.trade.buytolerance': 'Number',
+    'app.gallery.ovdTableViewAccountsCount': 'Number',
+    'app.analytics.bufferInterval.millisec': 'Number',
+    'app.scrollWatcher.delay': 'Number',
+    'app.scrollWatcher.visibilityPercentage': 'Number',
+    'app.perfLogging.threshold': 'Number',
+    'app.perfLogging.pods': 'Array',
+    'app.perfLogging.Channels': 'Array',
+    'app.content.domain': 'String',
+    'content.agreement.host': 'String',
+    'app.cq5.host': 'String',
+    'app.cq5.env': 'String',
+    'app.cq5.path': 'String',
+    'app.content.brandSuffix': 'String',
+    'app.blue.domain': 'String',
+    'app.idc.host': 'String',
+    'app.idc.assetclass.exchange': 'String',
+    'app.idc.mutualfund.exchange': 'String',
+    'app.ultimate.rewards.web.domain': 'String',
+    'app.ads.adPageIdEnvironment': 'String',
+    'cvservice.host': 'String',
+    'app.gwm.landing.page': 'String',
+    'app.gwmportal.domain': 'String',
+    'app.cfap.domain': 'String',
+    'app.mgp.domain': 'String',
+    'app.retirementCalculator.domain': 'String',
+    'app.envType': 'String',
+    'app.pub.domain': 'String',
+    'app.genericErrorPageUri': 'String',
+    'app.fps.navigation.url': 'String',
+    'app.videoGuide.enabled': 'Boolean',
+    'app.checkIn.enabled': 'Boolean',
+    'app.onboarding.enabled': 'String',
+    'app.tagManager.server': 'String',
+    'app.rocket.fuel.audience.url': 'String',
+    'app.rocket.fuel.adofferaudience.url': 'String',
+    'app.midas.ad.offer.url': 'String',
+    'app.midas.membership.id': 'String',
+    'app.voc.url': 'String',
+    'app.cbwelcome.document.web.domain': 'String',
+    'app.cbwelcome.open.web.domain': 'String',
+    'app.devicecookie': 'String',
+    'app.rocketFuelAds.tagMap.pageId': 'String',
+    'app.classic.apply.web.domain': 'String',
+    'app.classic.applynow.web.domain': 'String',
+    'app.classic.banking.web.domain': 'String',
+    'app.classic.borrowerportal.web.domain': 'String',
+    'app.classic.cards.web.domain': 'String',
+    'app.classic.chaseonline.web.domain': 'String',
+    'app.classic.investments.web.domain': 'String',
+    'app.classic.jpmorgan.web.domain': 'String',
+    'app.classic.payments.web.domain': 'String',
+    'app.classic.servicing.web.domain': 'String',
+    'app.classic.stmts.web.domain': 'String',
+    'app.classic.messagecenter.web.domain': 'String',
+    'app.classic.chasepay.web.domain': 'String',
+    'app.classic.apply.espanol.web.domain': 'String',
+    'app.classic.banking.espanol.web.domain': 'String',
+    'app.classic.cards.espanol.web.domain': 'String',
+    'app.classic.chaseonline.espanol.web.domain': 'String',
+    'app.classic.payments.espanol.web.domain': 'String',
+    'app.classic.servicing.espanol.web.domain': 'String',
+    'app.classic.stmts.espanol.web.domain': 'String',
+    'app.classic.messagecenter.espanol.web.domain': 'String',
+    'app.classic.chasepay.espanol.web.domain': 'String',
+    'app.classic.cwmtrading.web.domain': 'String',
+    'app.classic.quickdeposit.web.domain': 'String',
+    'app.classic.quickdeposit.espanol.web.domain': 'String',
+    'app.classic.gwm.idc.web.domain': 'String',
+    'app.classic.idc.web.domain': 'String',
+    'app.classic.factset.digital.web.domain': 'String',
+    'ads.host': 'String',
+    'ads.slotplacement.version': 'String',
+    'ads.timeout.millisec': 'String',
+    'app.voc.samplerate.longitudinal': 'String',
+    'app.voc.samplerate.mortgage': 'String',
+    'app.voc.samplerate.card': 'String',
+    'app.voc.samplerate.cbo': 'String',
+    'app.voc.samplerate.cml': 'String',
+    'app.voc.samplerate.cre': 'String',
+    'app.voc.samplerate.toggleCard': 'String',
+    'app.voc.samplerate.msa': 'String',
+    'app.voc.samplerate.appointmentConfirmed': 'String',
+    'app.voc.samplerate.appointmentDirtyExit': 'String',
+    'app.voc.samplerate.etdDisputes': 'String',
+    'app.content.bundleVersion': 'String',
+    'app.blueBoot.version': 'String',
+    'app.blueVendor.version': 'String',
+    'app.blue.version': 'String',
+    'app.blueApp.version': 'String',
+    'app.blueView.version': 'String',
+    'app.blueViewRactive.version': 'String',
+    'app.error.scriptErrorPageUri': 'String',
+    'app.hybrid.bundles': 'String',
+    'app.versionedAssets.content.domain': 'String',
+    'quickcapitalBlaUrl': 'String',
+    'downloadReceiptsAndTagsUrl': 'String',
+    'feature.cardOverview': 'Boolean',
+    'feature.multiCardOverview': 'Boolean',
+    'feature.investmentOverview': 'Boolean',
+    'feature.singleDepositOverview': 'Boolean',
+    'feature.multiDepositOverview': 'Boolean',
+    'feature.singleLoanOverview': 'Boolean',
+    'feature.multiLoanOverview': 'Boolean',
+    'feature.multiProductOverview': 'Boolean',
+    'feature.defaultPageOVD': 'Boolean',
+    'app.paymentPlans.enabled': 'Boolean',
+    'app.gifting.enabled': 'Boolean',
+    'app.qpSplitRequestActivity.enabled': 'Boolean',
+    'app.aat.cashToTrade': 'Number',
+    'app.collections.enabled': 'Boolean',
+    'app.financialProfileComplete.Edit.enabled':'Boolean',
+    'feature.etdActivity': 'Boolean',
+    'feature.activity.enhancedTransactionDetails': 'Boolean',
+    'feature.activity.enhancedTransactionDetailsBusinessCard': 'Boolean',
+    'app.eCoupon.enabled': 'Boolean',
+    'feature.landingRedirector': 'Boolean',
+    'hybrid.blue.domain': 'String',
+    'hybrid.content.domain': 'String',
+    'hybrid.cq5.host': 'String',
+    'hybrid.versionedAssets.content.domain': 'String',
+    'app.chaseLoyalty.domain': 'String',
+    'app.gwmConnectPortal.domain': 'String',
+    'app.gwmUiPortal.domain': 'String',
+    'feature.refactoredActivity': 'Boolean',
+    'feature.refactoredActivity.DDA': 'Boolean',
+    'feature.refactoredActivity.CARD': 'Boolean',
+    'feature.refactoredActivity.LOAN': 'Boolean',
+    'feature.refactoredActivity.LOAN.CRF': 'Boolean',
+    'feature.refactoredActivity.MORTGAGE': 'Boolean',
+    'feature.refactoredActivity.AUTOLOAN': 'Boolean',
+    'feature.refactoredActivity.AUTOLEASE': 'Boolean',
+    'feature.ODSService.activity.CARD': 'Boolean',
+    'feature.ODSService.activity.DDA': 'Boolean',
+    'feature.ODSService.recentActivity.CARD': 'Boolean',
+    'feature.ODSService.recentActivity.DDA': 'Boolean',
+    'app.encryptutil.card.pin.exponent':'String',
+    'app.encryptutil.card.pin.modulus':'String',
+    'app.cxo.legalrepo.enabled': 'Boolean',
+    'feature.isCardlyticsEnabled': 'Boolean',
+    'feature.gallery.etdDisputes.enabled': 'Boolean',
+    'enableEdaAutoSimulate': 'Boolean',
+    'feature.netIncreaseOrDecrease': 'Boolean',
+    'feature.spartaEnabled': 'Boolean',
+    'app.payments.mortgageFlexOptionsDisabled': 'Boolean',
+    'app.featureFlags.service.baseUrl': 'String',
+    'app.markit.optionChain.domain': 'String',
+    'app.markit.api.domain': 'String',
+    'app.markit.optionChain.uri': 'String',
+    'app.markit.optionChain.timeout': 'Number',
+    'app.markit.optionChain.iframeLoadTimeOut': 'Number',
+    'app.privatebanking.logout': 'String',
+    'app.jpmorgansecurities.logout': 'String',
+    'app.offers.creditCard.enabled': 'Boolean',
+    'tpa.whitelist': 'String',
+    'app.auth.devicecookie': 'String',
+    'app.sessionTimeout.JPMORGAN.timeoutOverrides': 'Array',
+    'app.sessionTimeout.BUSINESS.timeoutOverrides': 'Array',
+    'app.sessionTimeout.WEALTH.timeoutOverrides': 'Array',
+    'app.sessionTimeout.COMMERCIAL.timeoutOverrides': 'Array',
+    'app.sessionTimeout.PERSONAL.timeoutOverrides': 'Array',
+    'app.quickpay.enrollment.options.enable': 'Boolean',
+    'app.discover.encryption.publicKey': 'String',
+    'app.discover.encryption.disable': 'Boolean',
+    'app.domainconnector.host': 'String',
+    'app.domainconnector.version': 'String',
+    'baseServiceUrl': 'String',
+    'app.ebankPerfMetric.disabled': 'Boolean',
+    'feature.geoImageDisabled': 'Boolean',
+    'ads.marketing.host': 'String',
+    'ads.marketing.urlpostfix': 'String',
+    'ads.marketingCdn.enabled' : 'Boolean',
+    'app.trade.mutualfundNotAvailableCodes': 'Array',
+    'app.convoDeck.enabled': 'Boolean',
+    'cxo.merchantFundedOffers.eligibleAccountsMaxCount': 'Number',
+    'app.dso.enabled': 'Boolean',
+    'app.cxo.hybrid.blankLogWaitTimeout': 'Number',
+    'app.cxo.hybrid.spinnerWaitTimeout': 'Number',
+    'app.cxo.hybrid.blankPageLog.enabled': 'Boolean',
+    'app.cxo.hybrid.pageRenderSuccessLog.enabled': 'Boolean',
+    'app.originations.area.appstatus.version': 'String',
+    'investments.cwmtrade.options.eligible.enabled': 'Boolean',
+    'app.cxo.hybrid.bandwidthMonitor.enabled': 'Boolean',
+    'app.cxo.hybrid.bandwidthMonitor.maxTime': 'Number'
+};
+
+var optionalProps = [
+    'app.voc.samplerate.cml', 'app.voc.samplerate.cre'
+];
+var LANGUAGE_CODE_ENGLISH = 'en';
+
+//Provides a safe interface for the environmental properties. Will not provide
+//prop unless that prop has a type declared in propTypes, and prevents direct
+//access to clientEnvProps.
+var EnvProps = function(clientProps, propTypes) {
+
+    //Init
+    var VALID_TYPES = ['String', 'Boolean', 'Number', 'Array'];
+
+    var _versionProps, _versioningEnabled;
+
+    var _missingProps = [],
+        _typedClientProps = {},
+        _clientProps = clientProps,
+        _propTypes = propTypes;
+
+    var _hybridProps = {
+        'app.blue.domain': 'hybrid.blue.domain',
+        'app.content.domain': 'hybrid.content.domain',
+        'app.cq5.host': 'hybrid.cq5.host',
+        'app.versionedAssets.content.domain': 'hybrid.versionedAssets.content.domain'
+    };
+
+    if(!_clientProps) {
+        throw new Error('Initializing EnvProps while clientProps does' +
+            ' not exist or has been destroyed');
+    }
+
+    _typedClientProps = generateTypedProps(_propTypes, _clientProps);
+    _versioningEnabled = _typedClientProps['app.versionedAssetsEnabled'];
+
+    if (_versioningEnabled) {
+        _versionProps = generateVersionProps(_clientProps);
+    }
+
+    //Helper functions
+
+    function generateTypedProps(propTypes, envProps) {
+        var typedProps = {};
+        for (var prop in propTypes) {
+            var propType = propTypes[prop];
+            if (VALID_TYPES.indexOf(propType) === -1) {
+                throw new Error('Property type for ' + prop +
+                    ' must be in: ' + VALID_TYPES.join(', '));
+            }
+            typedProps[prop] = castProp(envProps[prop], propTypes[prop]);
+        }
+        return typedProps;
+    }
+
+    function generateVersionProps(clientProps) {
+        var props = {};
+        var versions = clientProps['app.versionedAssets.allKeys'].split(',');
+        versions.forEach(function(version) {
+            if(!clientProps.hasOwnProperty(version)) {
+                throw new Error('Property ' + version + ' present in' +
+                    ' versionedAssets.allKeys but not in clientProps');
+            }
+            props[version] = 1;
+        });
+        return props;
+    }
+
+    function isRequiredProp(prop) {
+        return optionalProps.indexOf(prop) === -1;
+    }
+
+    function handleMissingProp(prop) {
+        if (isRequiredProp(prop)) {
+            //Option 1:
+            //throw new Error('clientProps does not have a property named ' + propName);
+
+            //Option 2:
+            _missingProps.push(prop);
+        }
+    }
+
+    function castProp(val, type) {
+
+        if (val === undefined) {
+            //don't try to parse undefined
+            return;
+        }
+        //Booleans, numbers and arrays are all cast with JSON.parse
+        switch(type) {
+            case 'Array':
+                val = JSON.parse(val.replace(/\'/g,'"'));
+                break;
+            case 'Number':
+            case 'Boolean':
+                val = JSON.parse(val);
+                break;
+        }
+        return val;
+    }
+
+    //Methods
+
+    //Getter with casting to appropriate type
+    this.get = function(propName) {
+
+        if(!_typedClientProps.hasOwnProperty(propName)) {
+            throw new Error('No property type defined for property ' + propName);
+        }
+        if(_typedClientProps[propName] === undefined) {
+            handleMissingProp(propName);
+            return;
+        }
+
+        if(hybrid && Object.keys(_hybridProps).indexOf(propName) !== -1) {
+            return _typedClientProps[_hybridProps[propName]];
+        }
+
+        return _typedClientProps[propName];
+    };
+
+    //Getter without casting. Can only be used on properties in the versioned
+    //assets property list.
+    this.getVersionedAsset = function(propName) {
+        if(!_versioningEnabled) {
+            throw new Error('Trying to access versioned assets prop while' +
+                    ' versioned assets is disabled');
+        }
+        if(!_versionProps[propName]) {
+            throw new Error('Trying to access property ' + propName +
+                'with getVersionedAsset but it is not a versionedAsset property');
+        }
+        return _clientProps[propName];
+    };
+
+    this.isVersionedAssetsEnabled = function() {
+        return _versioningEnabled;
+    };
+
+    //Return a copy of the versioned properties list. Intended only for use by
+    //versioned assets module.
+    this.getVersionedKeys = function() {
+        return Object.keys(_versionProps);
+    };
+
+    //Logs a list of all properties which were added to the application context
+    //even though they are not present in the clientEnvProps
+    this.log = function() {
+        if(_missingProps.length > 0) {
+            console.warn('AppConfig attempted to access the following' +
+                ' properties, which were not found in environment props: ' +
+                _missingProps.join(', '));
+        }
+    };
+};
+
+// Interested Party Dashboard support
+var dashboardAppRoutes = ['dashboard', 'classic', 'common'];
+var appRoutesNameMapper = {
+    interestedparty: 'interestedparty',
+    thirdpartyaccess: 'thirdpartyaccess'
+};
+var appsRouterMapper = {
+    interestedparty : ['interestedparty', 'common'],
+    thirdpartyaccess: ['thirdpartyaccess', 'common']
+};
+var appsBootMapper = {
+    interestedparty : 'interestedparty/boot',
+    thirdpartyaccess: 'thirdpartyaccess/boot'
+};
+var appsPathMapper = {
+    '/web/auth/interestedparty' : 'interestedparty',
+    '/web/auth/thirdpartyaccess': 'thirdpartyaccess',
+    '/web/auth/thirdparty/authorize': 'thirdpartyaccess',
+    //return below values in case of hybrid
+    'thirdpartyaccess': 'thirdpartyaccess',
+    'dashboard': 'dashboard'
+};
+var getAppName = function() {
+    if (window.location && window.location.pathname) {
+        // DPS directs IP users to web/auth/interestedparty versus other users which go to web/auth/dashboard
+        //return window.location.pathname.indexOf('interestedparty') !== -1;
+        return  !hybrid ? appsPathMapper[window.location.pathname] : appsPathMapper[window.location.hash.split('#/')[1].split('/')[0]] ;
+    }
+    return false;
+};
+var getRequirePathAppTracker = function(area, version){
+    var base = envProps.get('app.blue.domain');
+    var areaName = area.toLowerCase();
+    var subPath = '/area-' + areaName + '/' + (version || '');
+    //if there is an area and it's not develop/master/RC assume it's a tagged version (add extra path)
+    var regExp = /develop|master|-RC/;
+    var areaPath = version && !regExp.test(version) ?
+     subPath + '/dist/' + subPath + '/js': subPath + '/js';
+
+    return version ? base + areaPath : area + '/dist/' + areaPath;
+}
+
+var loadAppUser = getAppName();
+var getGeoImageUrl = function(appCq5Host, envProps) {
+    return envProps.get('feature.geoImageDisabled') ? '' : (appCq5Host + '/content/geo-images/images');
+}
+
+var getRequirePath = function(envProps, area) {
+    var base = envProps.get('app.blue.domain'),
+    subPath = '/' + area.substr(0,1).toUpperCase() + area.substr(1) + 'Area/',
+    version = envProps.get('app.' + area + 'Area.version');
+    return base + subPath + version;
+}
+
+//initAppConfig
+var initAppConfig = function(envProps){
+    var appCq5Host = 'https://' + envProps.get('app.cq5.host');
+    var appCq5Path = envProps.get('app.cq5.path') || '/content/resource-bundles/:site/:version/:language/bundles.json/:brand';
+    brand = '';
+    brandSuffix = '';
+    var featureFlagsHost = /prod/i.test(envProps.get('app.envType')) ? document.location.origin : envProps.get('app.featureFlags.service.baseUrl');
+
+    if (envProps.get('app.blueJSVersion.enabled')) {
+        blueDomain = envProps.get('app.blue.domain');
+    }
+
+    envProps.get('app.content.useBrandContent') && document.cookie.replace(/\bBRAND_1_0=([^;]+)/, function(cookie, BRAND_1_0) {
+        brand = BRAND_1_0 + '/';
+        brandSuffix = hybrid ? envProps.get('app.content.brandSuffix') : ''; //TODO brandSuffix can be removed after CR218
+        if (BRAND_1_0) {
+            // If BRAND_1_0 cookie value is found, we apply the branding theme to <BODY>.
+            document.body.classList.add('brand-' + BRAND_1_0.toLowerCase());
+        }
+    });
+
+    domainUrl = '';
+    authUrl = '';
+    contentAgreementHostUrl = 'https://' + envProps.get('content.agreement.host');
+    cq5Url = envProps.get('app.cq5.host');
+    idcDomainUrl = envProps.get('app.idc.host');
+    ultimateRewardsUrl = envProps.get('app.ultimate.rewards.web.domain');
+    adPageIdEnvironment = envProps.get('app.ads.adPageIdEnvironment');
+    creativeVirtualUrls = {
+        en: 'https://' + envProps.get('cvservice.host') + '/en',
+        es: 'https://' + envProps.get('cvservice.host') + '/es'
+
+    };
+    versionedAssets = getVersionedAssets(envProps);
+    appRoutes = appsRouterMapper[loadAppUser] ? appsRouterMapper[loadAppUser] : dashboardAppRoutes;
+    appConfig = {
+        'blue-app/app': {
+            AUTH_INDEX: '/web/auth/#',
+            AUTH_LOGOFF_PATH: 'logon/logoff',
+            ACCOUNTS_INDEX: '/web/accounts#',
+            PROFILE_INDEX: '/web/accounts#',
+            customerAnnouncementsPassThroughEnabled: envProps.get('feature.customerAnnouncementsPassThroughEnabled'),
+            isCardlyticsEnabled: envProps.get('feature.isCardlyticsEnabled'),
+            timeoutOverrides: {
+                JPMORGAN: envProps.get('app.sessionTimeout.JPMORGAN.timeoutOverrides'),
+                PERSONAL: envProps.get('app.sessionTimeout.PERSONAL.timeoutOverrides'),
+                BUSINESS: envProps.get('app.sessionTimeout.BUSINESS.timeoutOverrides'),
+                WEALTH: envProps.get('app.sessionTimeout.WEALTH.timeoutOverrides'),
+                COMMERCIAL: envProps.get('app.sessionTimeout.COMMERCIAL.timeoutOverrides')
+            },
+            pageInventoryEvent: envProps.get('app.analytics.pageInventoryEvent.enabled'),
+            versionedAssetsEnabled: envProps.get('app.versionedAssetsEnabled'),
+            versionedAssetsBaseUrl: envProps.get('app.versionedAssets.content.domain'),
+            getCssVersionedAssets: versionedAssets.getCSSAsset,
+            isEscrowEnabled: envProps.get('app.escrow.enabled'),
+            enableAmazonPromotionalOffer: envProps.get('app.payments.enableAmazonPromotionalOffer'),
+            isPinChangeDisabled: envProps.get('app.pinChange.isDisabled'),
+            isManageLinkedAccountsDisabled: envProps.get('app.manageLinkedAccounts.disabled'),
+            gwmLandingPage: envProps.get('app.gwm.landing.page'),
+            gwmPortalDomainUrl: envProps.get('app.gwmportal.domain'),
+            enablePMBLogs: envProps.get('app.pmblog.enabled'),
+            qpZelleKillSwitch: envProps.get('app.qpzelle.killswitch'),
+            thirdPartyEntryQP: envProps.get('thirdPartyEntryQP'),
+            cfapDomainUrl: envProps.get('app.cfap.domain'),
+            mgpDomainUrl: envProps.get('app.mgp.domain'),
+            chaseloyaltyDomainUrl: envProps.get('app.chaseLoyalty.domain'),
+            retirementCalculatorDomain: envProps.get('app.retirementCalculator.domain'),
+            defaultMocking: false,
+            enableGlobalNavigation: envProps.get('app.globalnav.enabled'),
+            envType: envProps.get('app.envType'),
+            enableAds: envProps.get('app.ads.enabled'),
+            enableAchPayments: envProps.get('enableAchPayments'),
+            qdDeploymentServerUrl: envProps.get('qdDeploymentServerUrl'),
+            qdMacDeploymentServerUrl: envProps.get('qdMacDeploymentServerUrl'),
+            qdSmartScannerInstallPdfUrl: envProps.get('qdSmartScannerInstallPdfUrl'),
+            enableAchFileUpload: envProps.get('app.achFileUpload.enabled'),
+            enableCommercialLoans: envProps.get('app.commercialloans.enabled'),
+            enableCashflow: envProps.get('app.cashflow.enabled'),
+            enableQuickDeposit: envProps.get('app.quickDeposit.enabled'),
+            enableGlobalErrorHandler: envProps.get('app.globalErrorHandler.enabled'),
+            enableIntegratedSignout: envProps.get('app.integratedSignout.enabled'),
+            enableComplaintEscalation: envProps.get('app.voc.complaintescalation.enabled'),
+            enableBrandThemes: envProps.get('enableBrandThemes'),
+            enableMarketingPreferencesOpinionLab: envProps.get('app.emailmarketingpreferences.opinionlab.enabled'),
+            pubUrl: envProps.get('app.pub.domain'),
+            genericErrorPageUri: envProps.get('app.genericErrorPageUri'),
+            enableProfileBeneficiaries: envProps.get('app.profile.beneficiaries.enabled'),
+            enableFinancialProfile: envProps.get('app.profile.financialProfile.enabled'),
+            enableFinancialProfileComplete: envProps.get('app.financialProfileComplete.enabled'),
+            enableFinancialProfileCompleteEdit: envProps.get('app.financialProfileComplete.Edit.enabled'),
+            enableTrustedContact: envProps.get('app.tcp.enabled'),
+            enableInvestments: envProps.get('app.investments.enabled'),
+            enableViewTaxLots: envProps.get('app.investments.positions.viewTaxLots.enabled'),
+            positionsChunkLoaderLmsChunkSize: envProps.get('app.investments.positions.chunkLoader.lms.chunkSize'),
+            positionsChunkLoaderXsChunkSize: envProps.get('app.investments.positions.chunkLoader.xs.chunkSize'),
+            transactionsChunkLoaderXsChunkSize: envProps.get('app.investments.transactions.chunkLoader.xs.chunkSize'),
+            transactionsChunkLoaderLmsChunkSize: envProps.get('app.investments.transactions.chunkLoader.lms.chunkSize'),
+            rglChunkLoaderXsChunkSize: envProps.get('app.investments.rgl.chunkLoader.xs.chunkSize'),
+            rglLoaderLmsChunkSize: envProps.get('app.investments.rgl.chunkLoader.lms.chunkSize'),
+            assetClassesChunkLoaderSize: envProps.get('app.investments.assetclass.chunkSize'),
+            assetClassesChunkLoaderSizeIE: envProps.get('app.investments.assetclass.chunkSizeIE'),
+            enableTaxCenter: envProps.get('feature.gwmTaxCenter'),
+            enableShareholderMaterials: envProps.get('app.documents.shareholder.enabled'),
+            enableTaxDocumentsExport: envProps.get('app.documents.tax.export.enabled'),
+            restrictedAccountTypesForDocumentDisplay: envProps.get('app.documents.restrictedAccountTypesForDocumentDisplay'),
+            enableInvestmentsOpenAutomatedAccount: envProps.get('app.investments.openAutomated.enabled'),
+            maxAccountGroupSize: envProps.get('app.investments.maxAccountGroupSize'),
+            accountAccordianSize: envProps.get('app.investments.accountAccordianSize'),
+            enableInvestmentsAAT: envProps.get('app.investments.aat.enabled'),
+            dafPercentageAnnualFee: envProps.get('app.cxo.daf.percentage.annual.fee'),
+            pricingSliderIntervalSize: envProps.get('app.investments.plp.aat.pricingSliderInterval'),
+            enableInvestmentsAccountDailyValue: envProps.get('app.investments.dailyvalue.enabled'),
+            enableInvestmentsUglChangePercentage: envProps.get('app.investments.totalUglChangePercentage.enabled'),
+            enableInvestmentsS2I: envProps.get('app.investments.savingsToInvest.enabled'),
+            s2IMinAmountToInvest: envProps.get('app.investments.savingsToInvest.minAmountToInvest'),
+            s2IMinMonthlyContributionAmount: envProps.get('app.investments.savingsToInvest.minMonthlyContributionAmount'),
+            s2IMakeYourMoneyWorkDefaultMonthlyValue: envProps.get('app.investments.savingsToInvest.makeYourMoneyWorkDefaultMonthlyValue'),
+            savingsProjectionMultiplier: envProps.get('app.investments.savingsToInvest.savingsProjectionMultiplier'),
+            s2ISimulationTimeHorizon: envProps.get('app.investments.savingsToInvest.simulationTimeHorizon'),
+            s2IDefaultRainyDayFundTenure: envProps.get('app.investments.savingsToInvest.defaultRainyDayFundTenure'),
+            edaDefaultGoalType: envProps.get('app.investments.eda.goalType'),
+            edaDefaultRiskProfile: envProps.get('app.investments.eda.riskProfile'),
+            edaDefaultMonthlyContribution: envProps.get('app.investments.eda.monthlyContribution'),
+            edaDefaultTimeHorizon: envProps.get('app.investments.eda.timeHorizon'),
+            edaDefaultAmountToInvest: envProps.get('app.investments.eda.amountToInvest'),
+            edaDefaultRetirementAgeRangeId: envProps.get('app.investments.eda.retirementAgeRangeId'),
+            edaMinimumContribution: envProps.get('app.investments.eda.minimumContributionAmount'),
+            edaManagementFee: envProps.get('app.investments.eda.managementFee'),
+            edaCalculatedManagementFee: envProps.get('app.investments.eda.calculatedManagementFee'),
+            edaMinimumBalance: envProps.get('app.investments.eda.minimumBalance'),
+            enableInvestmentsS2iEntry: envProps.get('app.investments.s2iEntry.enabled'),
+            enableInvestmentsJPMCSimulate: envProps.get('app.investments.JPMCSimulate.enabled'),
+            enablePlpAemNonSegement: envProps.get('app.investments.PlpNonSegment.enabled'),
+            enableTradeOptions: envProps.get('app.investments.trade.options.enabled'),
+            enableIdeasAndInsights: envProps.get('app.ideas.enabled'),
+            enablePlpInvestmentAccounts: envProps.get('app.plpInvestmentAccounts.enabled'),
+            enablePlpInvestmentAccountsJPO: envProps.get('app.plpInvestmentAccountsJPO.enabled'),
+            maxBuyQuantityTolerance: envProps.get('app.trade.buytolerance'),
+            ovdTableViewAccountsCount: envProps.get('app.gallery.ovdTableViewAccountsCount'),
+            enableEdaAutoSimulate: envProps.get('enableEdaAutoSimulate'),
+            investingProfileEnabledFlag: envProps.get('app.financialProfileComplete.enabled'),
+            enableOOBE: envProps.get('app.oobe.enabled'),
+            enableFps: envProps.get('app.fps.enabled'),
+            fpsUrl: envProps.get('app.fps.navigation.url'),
+            enableCtlAndLoanIQ: envProps.get('feature.payments.ctlAndLoanIQ.enabled'),
+            enableVideoGuide: envProps.get('app.videoGuide.enabled'),
+            enableD2DAutoLoanLink: envProps.get('app.megamenu.daoD2DAutoLoanLink.enabled'),
+            enableTagManager: envProps.get('app.tagManager.enabled'),
+            checkInEnabled: envProps.get('app.checkIn.enabled'),
+            onboardingEnabled: envProps.get('app.onboarding.enabled'),
+            achCollectionsEnabled: envProps.get('app.collections.enabled'),
+            pddCollectionsEnabled: envProps.get('app.pddcollections.enabled'),
+            pddPaymentsEnabled: envProps.get('app.pddpayments.enabled'),
+            showCollectionsSpeedbump: envProps.get('showCollectionsSpeedbump'),
+            quickcapitalBlaUrl: envProps.get('quickcapitalBlaUrl'),
+            ASSETS_INDEX: envProps.get('app.content.domain') + '/common/assets/',
+            IMAGE_BASEURL: 'http://dgt01q02ea1l001.svr.us.jpmchase.net',
+            contentAgreementHost: 'https://' + envProps.get('content.agreement.host'),
+            tagServerHost: envProps.get('app.tagManager.server'),
+            rocketFuelAudienceUrl: envProps.get('app.rocket.fuel.audience.url'),
+            rocketFuelAdOfferAudienceUrl: envProps.get('app.rocket.fuel.adofferaudience.url'),
+            midasAdOfferUrl: envProps.get('app.midas.ad.offer.url'),
+            midasAdOfferMembershipId: envProps.get('app.midas.membership.id'),
+            siteMessagesCq5Url: appCq5Host + '/content/site-messages/digital-ui/:language/messages.json',
+            voiceOfCustomerUrl: envProps.get('app.voc.url'),
+            APP_CQ5_HOST_CARD: appCq5Host,
+            ULTIMATE_REWARDS_SITE: envProps.get('app.ultimate.rewards.web.domain'),
+            cbwelcomeDocUrl: envProps.get('app.cbwelcome.document.web.domain'),
+            cbwelcomeOpenUrl: envProps.get('app.cbwelcome.open.web.domain'),
+            geoImageUrl: getGeoImageUrl(appCq5Host, envProps),
+            geoImageDisabled: envProps.get('feature.geoImageDisabled'),
+            staticImageUrl: appCq5Host + '/content/dam/cpo-static/images',
+            viewRealTimeQuotesEnabled: envProps.get('app.viewRealTimeQuotesEnabled'),
+            authDeviceCookie: envProps.get('app.devicecookie'),
+            cashBackActivationUrl: envProps.get('app.ultimate.rewards.web.domain') + '/freedom',
+            cashBackDetailsUrl: envProps.get('app.ultimate.rewards.web.domain') + '/freedom',
+            cashBackCalendarUrl: envProps.get('app.ultimate.rewards.web.domain') + '/freedom',
+            redeemUltimateRewardsUrl: envProps.get('app.ultimate.rewards.web.domain') + '/home?AI=',
+            earnMoreUltimateRewardsUrl: envProps.get('app.ultimate.rewards.web.domain') + '/home?AI=',
+            redeemUltimateRewardsPseudoTileUrl: envProps.get('app.ultimate.rewards.web.domain') + '/home?jp_ltg=myaccts_points_hprrail',
+            downloadReceiptsAndTagsUrl: envProps.get('downloadReceiptsAndTagsUrl'),
+            brokerageTransfersEnabled: envProps.get('app.payments.brokerageTransfersEnabled'),
+            distributionTransfersEnabled: envProps.get('app.payments.distributionTransfersEnabled'),
+            securitiesTransfersEnabled: envProps.get('app.payments.securitiesTransfersEnabled'),
+            journalsTransfersEnabled: envProps.get('app.payments.journalsTransfersEnabled'),
+            enableMerchantDirectory: envProps.get('app.payments.merchantdirectory.enabled'),
+            brokerageToExternalTransfersUnsupported: envProps.get('app.payments.brokerageToExternalTransfersUnsupported'),
+            brokerageToExternalTransfersUnsupportedPrivateBankOnly: envProps.get('app.payments.brokerageToExternalTransfersUnsupportedPrivateBankOnly'),
+            brokerageToExternalTransfersUnsupportedSecuritiesOnly: envProps.get('app.payments.brokerageToExternalTransfersUnsupportedSecuritiesOnly'),
+            serviceUrl: domainUrl,
+            aatMinimumCashToTrade: envProps.get('app.aat.cashToTrade'),
+            idcDomainUrl: envProps.get('app.idc.host'),
+            idcExchangeParam: envProps.get('app.idc.assetclass.exchange'),
+            idcMutualFundExchangeParam: envProps.get('app.idc.mutualfund.exchange'),
+            enableRocketFuelAds: envProps.get('app.rocketFuelAds.enabled'),
+            rocketFuelPageId: envProps.get('app.rocketFuelAds.tagMap.pageId'),
+            marketsResearchEnabled: envProps.get('feature.marketsResearchEnabled'),
+            customPositionsViewEnabled: envProps.get('feature.customPositionsViewEnabled'),
+            jpmsPerformanceEnabled: envProps.get('feature.jpmsPerformanceEnabled'),
+            netIncreaseOrDecrease: envProps.get('feature.netIncreaseOrDecrease'),
+            viewCorporateActionsEnabled: envProps.get('app.viewCorporateActionsEnabled'),
+            electYourSharesEnabled: envProps.get('app.electYourSharesEnabled'),
+            paymentPlansEnabled: envProps.get('app.paymentPlans.enabled'),
+            giftingEnabled: envProps.get('app.gifting.enabled'),
+            qpSplitRequestActivityEnabled: envProps.get('app.qpSplitRequestActivity.enabled'),
+            eCouponEnabled: envProps.get('app.eCoupon.enabled'),
+            gwmAlternativeAssetsPortalEnabled: envProps.get('feature.gwmAlternativeAssetsPortalEnabled'),
+            gwmAlternativeAssetsPortalDomain: envProps.get('app.gwmConnectPortal.domain'),
+            gwmUiPortalDomain: envProps.get('app.gwmUiPortal.domain'),
+            appkitEncryptExponent: envProps.get('app.encryptutil.card.pin.exponent'),
+            appkitEncryptModulus: envProps.get('app.encryptutil.card.pin.modulus'),
+            enableLegalAgreements: envProps.get('app.cxo.legalrepo.enabled'),
+            enableNavigationToClassicRewards: envProps.get('app.gallery.enableNavigationToClassicRewards'),
+            preConfigCardCount: envProps.get('app.creditCardAccountServicing.cli.preConfigCardCount'),
+            spartaEnabled: envProps.get('feature.spartaEnabled'),
+            mortgageFlexOptionsDisabled: envProps.get('app.payments.mortgageFlexOptionsDisabled'),
+            featureFlagsDomainUrl: featureFlagsHost,
+            adsHostUrl: envProps.get('ads.host'),
+            markitDomain: envProps.get('app.markit.optionChain.domain'),
+            markitAPIDomain: envProps.get('app.markit.api.domain'),
+            markitOptionsChainURI: envProps.get('app.markit.optionChain.uri'),
+            markitAuthAccessTokenTimeout: envProps.get('app.markit.optionChain.timeout'),
+            markitIframeLoadTimeout: envProps.get('app.markit.optionChain.iframeLoadTimeOut'),
+            enableZelleAppEnrollmentOption: envProps.get('app.quickpay.enrollment.options.enable'),
+            discoverMerchantRecipientsPublicKey: envProps.get('app.discover.encryption.publicKey'),
+            discoverMerchantRecipientsEncryptionDisable: envProps.get('app.discover.encryption.disable'),
+            classicDomains: {
+                CLASSIC_APPLY_URI: envProps.get('app.classic.apply.web.domain'),
+                CLASSIC_APPLYNOW_URI: envProps.get('app.classic.applynow.web.domain'),
+                CLASSIC_BANKING_URI: envProps.get('app.classic.banking.web.domain'),
+                CLASSIC_BORROWER_PORTAL_URI: envProps.get('app.classic.borrowerportal.web.domain'),
+                CLASSIC_CARDS_URI: envProps.get('app.classic.cards.web.domain'),
+                CLASSIC_CHASEONLINE_URI: envProps.get('app.classic.chaseonline.web.domain'),
+                CLASSIC_INVESTMENTS_URI: envProps.get('app.classic.investments.web.domain'),
+                CLASSIC_JPMORGAN_URI: envProps.get('app.classic.jpmorgan.web.domain'),
+                CLASSIC_PAYMENTS_URI: envProps.get('app.classic.payments.web.domain'),
+                CLASSIC_SERVICING_URI: envProps.get('app.classic.servicing.web.domain'),
+                CLASSIC_STATEMENTS_URI: envProps.get('app.classic.stmts.web.domain'),
+                CLASSIC_MESSAGE_CENTER_URI: envProps.get('app.classic.messagecenter.web.domain'),
+                CLASSIC_CHASEPAY_URI: envProps.get('app.classic.chasepay.web.domain'),
+                CLASSIC_APPLY_URI_ES: envProps.get('app.classic.apply.espanol.web.domain'),
+                CLASSIC_BANKING_URI_ES: envProps.get('app.classic.banking.espanol.web.domain'),
+                CLASSIC_CARDS_URI_ES: envProps.get('app.classic.cards.espanol.web.domain'),
+                CLASSIC_CHASEONLINE_URI_ES: envProps.get('app.classic.chaseonline.espanol.web.domain'),
+                CLASSIC_PAYMENTS_URI_ES: envProps.get('app.classic.payments.espanol.web.domain'),
+                CLASSIC_SERVICING_URI_ES: envProps.get('app.classic.servicing.espanol.web.domain'),
+                CLASSIC_STATEMENTS_URI_ES: envProps.get('app.classic.stmts.espanol.web.domain'),
+                CLASSIC_MESSAGE_CENTER_URI_ES: envProps.get('app.classic.messagecenter.espanol.web.domain'),
+                CLASSIC_CHASEPAY_URI_ES: envProps.get('app.classic.chasepay.espanol.web.domain'),
+                CLASSIC_CWM_TRADING: envProps.get('app.classic.cwmtrading.web.domain'),
+                CLASSIC_QUICKDEPOSIT_URI: envProps.get('app.classic.quickdeposit.web.domain'),
+                CLASSIC_QUICKDEPOSIT_URI_ES: envProps.get('app.classic.quickdeposit.espanol.web.domain')
+            },
+            thirdPartyClassicDomains: {
+                CLASSIC_CWM_TRADING: envProps.get('app.classic.cwmtrading.web.domain'),
+                CLASSIC_GWM_IDC: envProps.get('app.classic.gwm.idc.web.domain'),
+                CLASSIC_IDC: envProps.get('app.classic.idc.web.domain'),
+                CLASSIC_FACTSET_DIGITAL: envProps.get('app.classic.factset.digital.web.domain')
+            },
+            privateBankingLogoutUrl: envProps.get('app.privatebanking.logout'),
+            jpmorganSecuritiesLogoutUrl: envProps.get('app.jpmorgansecurities.logout'),
+            ebankPerfMetricDisabled: envProps.get('app.ebankPerfMetric.disabled'),
+            mutualfundNotAvailableCodes: envProps.get('app.trade.mutualfundNotAvailableCodes'),
+            enableConvoDeckMessages: envProps.get('app.convoDeck.enabled'),
+            maxOffersEligibleMaxCount: envProps.get('cxo.merchantFundedOffers.eligibleAccountsMaxCount'),
+            enableDso: envProps.get('app.dso.enabled'),
+            enableOptionsNudge: envProps.get('investments.cwmtrade.options.eligible.enabled')
+        },
+        'blue-ads/lib/messageManager': {
+            adConfig: envProps.get('ads.host') + '/services/campaignmanagement/clientconfig.adframeworkconfig',
+            slotplacementscript: envProps.get('ads.host') + '/apps/campaignmanagement/clientlibs/slotplacement/js/adframework.min.js?release=' + envProps.get('ads.slotplacement.version'),
+            slotplacementconfig: {
+                timeout: envProps.get('ads.timeout.millisec'),
+                adTrackingDisabled: envProps.get('ads.tracking.disabled')
+            },
+            marketingLoaderUrl: envProps.get('ads.marketing.host') + '/web/marketing-ui/web-ads-configs/' + envProps.get('ads.marketing.urlpostfix') + '/marketing-loader.js',
+            marketingCdnEnabled: envProps.get('ads.marketingCdn.enabled')
+        },
+        'analytics/eventTracker': {
+            enableAnalytics: envProps.get('app.analytics.enabled'),
+            analytics:{
+                bufferInterval: envProps.get('app.analytics.bufferInterval.millisec'),
+                eventTypes: {
+                    webEvent: envProps.get('app.analytics.webEvent.enabled'),
+                    screenEvent: envProps.get('app.analytics.screenEvent.enabled'),
+                    variableSettingsEvent: envProps.get('app.analytics.variableSettingsEvent.enabled'),
+                    decisionedContentEvent: envProps.get('app.analytics.decisionedContentEvent.enabled'),
+                    adsEvent: envProps.get('app.analytics.adsEvent.enabled'),
+                    loggingEvent: envProps.get('app.analytics.loggingEvent.enabled'),
+                    impressionEvent: envProps.get('app.analytics.impressionEvent.enabled'),
+                    formFieldEvent: envProps.get('app.analytics.formFieldEvent.enabled'),
+                    experimentImpressionEvent: envProps.get('app.analytics.experimentImpressionEvent.enabled'),
+                    experimentActionEvent: envProps.get('app.analytics.experimentActionEvent.enabled'),
+                    pageInventoryEvent: envProps.get('app.analytics.pageInventoryEvent.enabled')
+                }
+            }
+        },
+        'analytics/scroll/watcher': {
+            delay: envProps.get('app.scrollWatcher.delay'),
+            visibilityPercentage: envProps.get('app.scrollWatcher.visibilityPercentage')
+        },
+        'common/voc/util/invitation': {
+            enableVoc: envProps.get('app.voc.enabled'),
+            vocSampleRates: {
+                longitudinal: envProps.get('app.voc.samplerate.longitudinal'),
+                mortgage: envProps.get('app.voc.samplerate.mortgage'),
+                card: envProps.get('app.voc.samplerate.card'),
+                cbo: envProps.get('app.voc.samplerate.cbo'),
+                cml: envProps.get('app.voc.samplerate.cml'),
+                cre: envProps.get('app.voc.samplerate.cre'),
+                toggleCard: envProps.get('app.voc.samplerate.toggleCard'),
+                msa: envProps.get('app.voc.samplerate.msa'),
+                appointmentConfirmed: envProps.get('app.voc.samplerate.appointmentConfirmed'),
+                appointmentDirtyExit: envProps.get('app.voc.samplerate.appointmentDirtyExit'),
+                etdDisputes: envProps.get('app.voc.samplerate.etdDisputes')
+            }
+        },
+        require:{
+            baseUrl: envProps.get('app.content.domain') + '/',
+            paths: {
+                'blue-view-ractive': 'blue-view-ractive/dist/blue-view-ractive/js',
+                aat : 'dashboard/aat/js',
+                accounts : 'dashboard/accounts/js',
+                accountsAdmin : 'dashboard/accountsAdmin/js',
+                'accountsDropdown-cmpt': '@ccb-blueblocks/accountsDropdown/dist/accountsDropdown/js',
+                'address-cmpt': '@ccb-blueblocks/form-blocks/dist/address-cmpt/js',
+                'addressVerificationOverlay-cmpt': '@ccb-blueblocks/form-blocks/dist/addressVerificationOverlay-cmpt/js',
+                analytics: '@ccb-blueanalytics/blue-analytics/dist/analytics/js',
+                'appkit-utilities': '@ccb-blueutilities/blue-utilities/dist/appkit-utilities/js',
+                advisorContact: 'dashboard/advisorContact/js',
+                'blue-ads': '@ccb-blueads/blue-ads/dist/blue-messages/js',
+                'blue-blocks': 'blue-connect',
+                'blue-legacy': 'blue-legacy/dist/blue-legacy/js',
+                'blue-spec-shared': 'ccb-bluespec-shared/dist/spec',
+                'blue-tags': '@ccb-bluetags/blue-tags/dist/blue-tags/js',
+                'blue-ui': 'blue-ui/dist/blue-ui/js',
+                bluespec: 'ccb-bluespec-cxo/dist/spec',
+                appkit: 'appkit/js',
+                'canadaAddress-cmpt': '@ccb-blueblocks/form-blocks/dist/canadaAddress-cmpt/js',
+                chat: '@ccb-blueblocks/chat-cntrl/dist/chat-cntrl/js',
+                classic: 'classic/js',
+                common: 'common/js',
+                customerInteraction: 'dashboard/customerInteraction/js',
+                chasePlan: 'dashboard/chasePlan/js',
+                d3: 'blue-view/visualize',
+                dashboard: 'dashboard/js',
+                misc: 'dashboard/misc/js',
+                convoDeck: 'dashboard/convoDeck/js',
+                depositAccountServicing: 'dashboard/depositAccountServicing/js',
+                commercialLoans: 'dashboard/commercialLoans/js',
+                cashflow: 'dashboard/cashflow/js',
+                checkin: 'dashboard/checkin/js',
+                balanceTransfers: 'dashboard/balanceTransfers/js',
+                paymentServicing: 'dashboard/paymentServicing/js',
+                overviewAccounts : 'dashboard/overviewAccounts/js',
+                disclosureAgreement: 'dashboard/disclosureAgreement/js',
+                documents : 'dashboard/documents/js',
+                eda : getRequirePath(envProps, 'eda'),
+                flyout: '@ccb-blueblocks/flyout-cntlr/dist/js',
+                interestedparty: 'interestedparty/js',
+                ipDashboard: 'interestedparty/ipDashboard/js',
+                externalAccounts: 'dashboard/externalAccounts/js',
+                financialProfile: 'dashboard/financialProfile/js',
+                autoCat: '@ccb-blueblocks/autoCat-area/dist/autoCat',
+                autoCatContactUs: '@ccb-blueblocks/autocatContactUs-cntlr/dist/js',
+                'form-blocks-common': '@ccb-blueblocks/form-blocks/dist/form-blocks-common/js',
+                gallery: 'dashboard/gallery/js',
+                cboGallery: 'dashboard/cboGallery/js',
+                merchantServices: 'dashboard/merchantServices/js',
+                gifting: 'dashboard/gifting/js',
+                flexCredit : 'dashboard/flexCredit/js',
+                payeesAdmin : 'dashboard/payeesAdmin/js',
+                merchantPayeesAdmin : 'dashboard/merchantPayeesAdmin/js',
+                globalTransfer : 'dashboard/globalTransfer/js',
+                wires : 'dashboard/wires/js',
+                wiresAdmin : 'dashboard/wiresAdmin/js',
+                goals: 'goals/js',
+                growthof10kchart: 'growthof10kchart/dist/growthof10kchart-cntlr/js',
+                ideasAndInsights:'@ccb-blueblocks/ideasandinsights-cntlr/dist/ideasandinsights-cntlr/js',
+                investmentDashboardAccountValue:'@ccb-blueblocks/investmentDashboardAccountValue-cntlr/dist/controller-block/js',
+                investmentsCfa:'@ccb-blueblocks/investmentsCfa-cntlr/dist/controller-block/js',
+                'assetSymbolLookup': '@ccb-blueblocks/AssetSymbolLookup-cntlr/dist/assetsymbollookup-cntlr/js',
+                ideas: 'dashboard/ideas/js',
+                learningInsights: 'dashboard/learningInsights/js',
+                'internationalAddress-cmpt': '@ccb-blueblocks/form-blocks/dist/internationalAddress-cmpt/js',
+                legalAgreementReconsent : 'legalAgreementReconsent/dist/controller-block/js',
+                investmentDashboardWatchlist: '@ccb-blueblocks/investmentDashboardWatchlists-cntlr/dist/js',
+                createPortfolio: '@ccb-blueblocks/createPortfolio/dist/js',
+                findInvestmentsOverview: '@ccb-blueblocks/findInvestmentsOverview-cntlr/dist/js',
+                'listlookup-cmpt': 'listlookup/dist/listlookup-cmpt/js',
+                loanAccountServicing : 'dashboard/loanAccountServicing/js',
+                marketIndices: '@ccb-blueblocks/marketIndices/dist/market-indices-controller-block/js',
+                marketScreeners: 'dashboard/marketScreeners/js',
+                merchantDirectory: 'dashboard/merchantDirectory/js',
+                singleDoor: 'dashboard/singleDoor/js',
+                payMultipleRecipients: 'dashboard/payMultipleRecipients/js',
+                'militaryAddress-cmpt': '@ccb-blueblocks/form-blocks/dist/militaryAddress-cmpt/js',
+                'multiTypeAddress-cmpt': '@ccb-blueblocks/form-blocks/dist/multiTypeAddress-cmpt/js',
+                'nameInformation-cmpt': '@ccb-blueblocks/form-blocks/dist/nameInformation-cmpt/js',
+                offers: 'dashboard/offers/js',
+                oneTimePassword: 'oneTimePassword/dist/controller-block/js',
+                onlineForms: 'dashboard/onlineForms/js',
+                overview: 'dashboard/overview/js',
+                prepaidAccount: 'common/sharedArea/prepaidAccount/js',
+                profile: 'profile/js',
+                projectedSimulationChart:'@ccb-blueblocks/projectedsimulationchart-cntlr/dist/js',
+                stackedBarChart:'@ccb-blueblocks/stacked-bar-chart/dist/js',
+                thirdPartyIFrame: '@ccb-blueblocks/thirdPartyIFrame-cmpt/dist/js',
+                qpEnroll: 'common/sharedArea/qpEnroll/js',
+                reviewSuspectedTransactions : 'dashboard/reviewSuspectedTransactions/js',
+                screenmap: 'ccb-bluespec-cxo/dist/screen-map',
+                secureMessages : 'dashboard/secureMessages/js',
+                'savingsToInvest': 'dashboard/savingsToInvest/js',
+                transferMoney: 'dashboard/transferMoney/js',
+                accountTransferActivity: 'dashboard/accountTransferActivity/js',
+                quickDeposit:'dashboard/quickDeposit/js',
+                fraudHub: 'dashboard/fraudHub/js',
+                paymentServicesHub: 'dashboard/paymentServicesHub/js',
+                'privacyPreferences': 'privacyPreferences/dist/privacy-preferences-cmpt/js',
+                billPayEnrollment:'dashboard/billPayEnrollment/js',
+                paperless: '@ccb-blueblocks/paperlessPreferences-cntlr/dist/controller-block/js',
+                portfolioLineOfCredit: 'dashboard/portfolioLineOfCredit/js',
+                ebills: 'dashboard/ebills/js',
+                merchantAutoPay: 'dashboard/merchantAutoPay/js',
+                discoverMerchantRecipients: 'dashboard/discoverMerchantRecipients/js',
+                accountOpening: 'dashboard/accountOpening/js',
+                jumboSearch : 'dashboard/jumboSearch/js',
+				myProfileCore: 'dashboard/myProfile/core/js',
+                myProfileOverview: 'dashboard/myProfile/overview/js',
+                myProfilePersonalDetails: 'dashboard/myProfile/personalDetails/js',
+                myProfileSignInSecurity: 'dashboard/myProfile/signInSecurity/js',
+                myProfileAccountSafe: 'dashboard/myProfile/accountSafe/js',
+                financialHealth: 'dashboard/financialHealth/js',
+                appointments: 'dashboard/appointments/js',
+                ractive: 'ractive/ractive',
+                hammerjs: 'hammerjs/hammer',
+                investments:'dashboard/investments/js',
+                trade: 'dashboard/trade/js',
+                serviceActivation:'dashboard/serviceActivation/js',
+                navigation: '@ccb-blueblocks/navigation-cntlr/dist/navigation-cntlr/js',
+                navigationKeys: '@ccb-cxo/navigation-keys/dist',
+                commercialReports: 'dashboard/commercialReports/js',
+                chaseRateAdvantage: 'dashboard/chaseRateAdvantage/js',
+                statusPage: getRequirePathAppTracker('statusPage', envProps.get('app.originations.area.appstatus.version'))
+            },
+            bundles: {
+                'navigation/manifest': ['navigation/lib/navigationHelper']
+            },
+            callback: function () {
+                requirejs.onError = function (err) {
+                    window.crashreporter && window.crashreporter.report(err);
+                    throw err;
+                };
+            }
+        },
+        'blue/log': {
+            ALL: {
+                level: clientDefaultLogLevel,
+                enabled: clientDefaultLogEnabled
+            },
+            appender: {
+                console: {
+                    level: clientConsoleLogLevel,
+                    enabled: clientConsoleLogEnabled
+                },
+                analytics:{
+                    level: clientAnalyticsLogLevel,
+                    enabled: clientAnalyticsLogEnabled
+                }
+            }
+        },
+        'dashboard/boot': {
+            useLocalizedTemplates: envProps.get('app.useLocalizedTemplates'),
+            isUserAuthenticated: isUserAuthenticated,
+            logonFrameUrl: '/web/auth/?fromOrigin=' + document.location.origin,
+            appAssetSplitCSS: envProps.get('app.asset.splitCSS'),
+            appAssetDiffCSS: envProps.get('app.content.domain') + '/dashboard/assets/purecss/diff.css',
+            isPodDataEnabled: envProps.get('app.podData.enabled'),
+        },
+        'dashboard/dashboard': {
+            perfLogThreshold: envProps.get('app.perfLogging.threshold'),
+            perfLogPods: envProps.get('app.perfLogging.pods'),
+            perfLogChannels: envProps.get('app.perfLogging.Channels'),
+            hybridBundle: hybridBundle,
+            hybridBlankLogWaitTimeout: envProps.get('app.cxo.hybrid.blankLogWaitTimeout'),
+            hybridSpinnerWaitTimeout: envProps.get('app.cxo.hybrid.spinnerWaitTimeout'),
+            hybridBlankPageLogEnabled: envProps.get('app.cxo.hybrid.blankPageLog.enabled'),
+            hybridPageRenderSuccessLogEnabled: envProps.get('app.cxo.hybrid.pageRenderSuccessLog.enabled'),
+            hybridBandWidthMonitorEnabled: envProps.get('app.cxo.hybrid.bandwidthMonitor.enabled')
+        },
+        'dashboard/lib/bandwidthQuality': {
+            maxResponseTime: envProps.get('app.cxo.hybrid.bandwidthMonitor.maxTime')
+        },
+        'common/lib/logoff': {
+            pubUrl: envProps.get('app.pub.domain')
+        },
+        'dashboard/service/coBrowse': {
+            userLocalContent: false,
+            contentUrls: {
+                segment: {
+                    remote: appCq5Host + '/content/contact-us/digital-ui/en/groups.json',
+                    local: ''
+                }
+            }
+        },
+        'dashboard/service/content': {
+            useLocalContent: false,
+            useBrandContent: envProps.get('app.content.useBrandContent'),
+            contentLanguage: appLanguage || LANGUAGE_CODE_ENGLISH,
+            contentSite: envProps.get('app.cq5.env'),
+            contentVersion: envProps.get('app.content.bundleVersion'),
+            contentUrls: {
+                app: {
+                    remote: appCq5Host + appCq5Path + '/app.json',
+                    local: ''
+                },
+                accounts: {
+                    remote: appCq5Host + appCq5Path + '/accounts.json',
+                    local: ''
+                },
+                convoDeck: {
+                    remote: appCq5Host + appCq5Path + '/convoDeck.json',
+                    local: ''
+                },
+                profile: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/profile.json',
+                    local: ''
+                },
+                myProfileCore: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/profile.json',
+                    local: ''
+                },
+                statusPage: {
+                    remote: appCq5Host + '/content/resource-bundles/:site/:version/:language/bundles.json/statusPage.json',
+                    local: ''
+                },
+                myProfileOverview: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/profile.json',
+                    local: ''
+                },
+                myProfilePersonalDetails: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/profile.json',
+                    local: ''
+                },
+                myProfileSignInSecurity: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/profile.json',
+                    local: ''
+                },
+                myProfileAccountSafe: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/profile.json',
+                    local: ''
+                },
+                payBills: {
+                    remote: appCq5Host + appCq5Path + '/payBills.json',
+                    local: ''
+                },
+                overview: {
+                    remote: appCq5Host + appCq5Path + '/overview.json',
+                    local: ''
+                },
+                overviewAccounts: {
+                    remote: appCq5Host + appCq5Path + '/overviewAccounts.json',
+                    local: ''
+                },
+                accessManager: {
+                    remote: appCq5Host + appCq5Path + '/accessManager.json',
+                    local: ''
+                },
+                collections: {
+                    remote: appCq5Host + appCq5Path + '/collections.json',
+                    local: ''
+                },
+                payMultipleBills: {
+                    remote: appCq5Host + appCq5Path + '/payMultipleBills.json',
+                    local: ''
+                },
+                quickPay: {
+                    remote: appCq5Host + appCq5Path + '/quickPay.json',
+                    local: ''
+                },
+                qpSettings: {
+                    remote: appCq5Host + appCq5Path + '/qpSettings.json',
+                    local: ''
+                },
+                ebills: {
+                    remote: appCq5Host + appCq5Path + '/ebills.json',
+                    local: ''
+                },
+                merchantAutoPay: {
+                    remote: appCq5Host + appCq5Path + '/merchantAutoPay.json',
+                    local: ''
+                },
+                discoverMerchantRecipients: {
+                    remote: appCq5Host + appCq5Path + '/discoverMerchantRecipients.json',
+                    local: ''
+                },
+                transferMoney: {
+                    remote: appCq5Host + appCq5Path + '/transferMoney.json',
+                    local: ''
+                },
+                accountTransferActivity: {
+                    remote: appCq5Host + appCq5Path + '/accountTransferActivity.json',
+                    local: ''
+                },
+                cashflow: {
+                    remote: appCq5Host + appCq5Path + '/cashflow.json',
+                    local: ''
+                },
+                misc: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/misc.json',
+                    local: ''
+                },
+                documents: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/documents.json',
+                    local: ''
+                },
+                payeesAdmin: {
+                    remote: appCq5Host + appCq5Path + '/payeesAdmin.json',
+                    local: ''
+                },
+                merchantPayeesAdmin: {
+                    remote: appCq5Host + appCq5Path + '/merchantPayeesAdmin.json',
+                    local: ''
+                },
+                paymentsAdmin: {
+                    remote: appCq5Host + appCq5Path + '/paymentsAdmin.json',
+                    local: ''
+                },
+                billPayEnrollment: {
+                    remote: appCq5Host + appCq5Path + '/billPayEnrollment.json',
+                    local: ''
+                },
+                markets: {
+                    remote: appCq5Host + appCq5Path + '/markets.json',
+                    local: ''
+                },
+                marketscreeners: {
+                    remote: appCq5Host + appCq5Path + '/marketScreeners.json',
+                    local: ''
+                },
+                merchantDirectory: {
+                    remote: appCq5Host + appCq5Path + '/merchantDirectory.json',
+                    local: ''
+                },
+                investments: {
+                    remote: appCq5Host + appCq5Path + '/investments.json',
+                    local: ''
+                },
+                trade: {
+                    remote: appCq5Host + appCq5Path + '/trade.json',
+                    local: ''
+                },
+                balanceTransfers: {
+                    remote: appCq5Host + appCq5Path + '/balanceTransfers.json',
+                    local: ''
+                },
+                paymentServicing: {
+                    remote: appCq5Host + appCq5Path + '/paymentServicing.json',
+                    local: ''
+                },
+                campaign: {
+                    remote: appCq5Host + appCq5Path + '/campaign.json',
+                    local: ''
+                },
+                wires: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/wires.json',
+                    local: ''
+                },
+                wiresAdmin: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/wireMoneyAdmin.json',
+                    local: ''
+                },
+                chasePay: {
+                    remote: appCq5Host + appCq5Path + '/chasePay.json',
+                    local: ''
+                },
+                offers: {
+                    remote: appCq5Host + appCq5Path + '/offers.json',
+                    local: ''
+                },
+                accountsAdmin: {
+                    remote: appCq5Host + appCq5Path + '/accountsAdmin.json',
+                    local: ''
+                },
+                qpEnroll: {
+                    remote: appCq5Host + appCq5Path + '/qpEnroll.json',
+                    local: ''
+                },
+                secureMessages: {
+                    remote: appCq5Host + appCq5Path + '/secureMessages.json',
+                    local: ''
+                },
+                prepaidAccount: {
+                    remote: appCq5Host + appCq5Path + '/prepaidAccount.json',
+                    local: ''
+                },
+                flexCredit: {
+                    remote: appCq5Host + appCq5Path + '/flexCredit.json',
+                    local: ''
+                },
+                gwmAccounts: {
+                    remote: appCq5Host + appCq5Path + '/gwmAccounts.json',
+                    local: ''
+                },
+                gallery: {
+                    remote: appCq5Host + appCq5Path + brandSuffix + '/gallery.json',
+                    local: ''
+                },
+                accountsOnboarding: {
+                    remote: appCq5Host + appCq5Path + '/accountsOnboarding.json',
+                    local: ''
+                },
+                globalTransfer: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/globalTransfer.json',
+                    local: ''
+                },
+                achPayments: {
+                    remote: appCq5Host + appCq5Path + '/achPayments.json',
+                    local: ''
+                },
+                achFileUpload: {
+                    remote: appCq5Host + appCq5Path + '/achFileUpload.json',
+                    local: ''
+                },
+                paymentServicesHub: {
+                    remote: appCq5Host + appCq5Path + '/paymentServicesHub.json',
+                    local: ''
+                },
+                ideas: {
+                    remote: appCq5Host + appCq5Path + '/ideas.json',
+                    local: ''
+                },
+                learning: {
+                    remote: appCq5Host + '/content/resource-bundles/:site/:version/:language/bundles.json/:brand/ideas.json',
+                    local: ''
+                },
+                learningInsights: {
+                    remote: appCq5Host + appCq5Path + '/learningInsights.json',
+                    local: ''
+                },
+                eda: {
+                    remote: appCq5Host + appCq5Path + '/eda.json',
+                    local: ''
+                },
+                accountTransfer: {
+                    remote: appCq5Host + appCq5Path + '/accountTransfer.json',
+                    local: ''
+                },
+                savingsToInvest: {
+                    remote: appCq5Host + '/content/resource-bundles/:site/:version/:language/bundles.json/:brand/savingsToInvest.json',
+                    local: ''
+                },
+                financialProfile: {
+                    remote: appCq5Host + '/content/resource-bundles/:site/:version/:language/bundles.json/:brand/financialProfile.json',
+                    local: ''
+                },
+                paymentPlans: {
+                    remote: appCq5Host + appCq5Path + '/paymentPlans.json',
+                    local: ''
+                },
+                accountServicing: {
+                    remote: appCq5Host + appCq5Path + '/accountServicing.json',
+                    local: ''
+                },
+                creditCardAccountServicing: {
+                    remote: appCq5Host + appCq5Path + '/creditCardAccountServicing.json',
+                    local: ''
+                },
+                depositAccountServicing: {
+                    remote: appCq5Host + appCq5Path + '/depositAccountServicing.json',
+                    local: ''
+                },
+                disclosureAgreement:{
+                    remote: appCq5Host + appCq5Path + '/disclosureAgreement.json',
+                    local: ''
+                },
+                loanAccountServicing: {
+                    remote: appCq5Host + appCq5Path + '/loanAccountServicing.json',
+                    local: ''
+                },
+                checkin: {
+                    remote: appCq5Host + appCq5Path + '/checkin.json',
+                    local: ''
+                },
+                aat: {
+                    remote: appCq5Host + appCq5Path + '/aat.json',
+                    local: ''
+                },
+                reviewSuspectedTransactions: {
+                    remote: appCq5Host + '/content/resource-bundles/:site/:version/:language/bundles.json/:brand/reviewTransactions.json',
+                    local: ''
+                },
+                commercialLoans: {
+                    remote: appCq5Host + appCq5Path + '/commercialLoans.json',
+                    local: ''
+                },
+                advisorContact: {
+                    remote: appCq5Host + appCq5Path + '/advisorContact.json',
+                    local: ''
+                },
+                gifting: {
+                    remote: appCq5Host + appCq5Path + '/gifting.json',
+                    local: ''
+                },
+                quickDeposit: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/quickDeposit.json',
+                    local: ''
+                },
+                fraudHub: {
+                    remote: appCq5Host + appCq5Path + brandSuffix+'/fraudProtectionHub.json',
+                    local: ''
+                },
+                merchantServices: {
+                    remote: appCq5Host + appCq5Path + '/merchantServices.json',
+                    local: ''
+                },
+                cboGallery: {
+                    remote: appCq5Host + appCq5Path + '/cboGallery.json',
+                    local: ''
+                },
+                singleDoor: {
+                    remote: appCq5Host + appCq5Path + '/paymentsAndRequests.json',
+                    local: ''
+                },
+                approvals: {
+                    remote: appCq5Host + appCq5Path + '/approvals.json',
+                    local: ''
+                },
+                payMultipleRecipients: {
+                    remote: appCq5Host + appCq5Path + '/payMultipleRecipients.json',
+                    local: ''
+                },
+                externalAccounts: {
+                    remote: appCq5Host + appCq5Path + '/externalAccounts.json',
+                    local: ''
+                },
+                portfolioLineOfCredit: {
+                    remote: appCq5Host + appCq5Path + '/portfolioLineOfCredit.json',
+                    local: ''
+                },
+                accountOpening: {
+                    remote: appCq5Host + appCq5Path + '/accountOpening.json',
+                    local: ''
+                },
+                jumboSearch: {
+                    remote: appCq5Host + appCq5Path + '/app.json',
+                    local: ''
+                },
+                financialHealth: {
+                    remote: appCq5Host + appCq5Path + '/autoSave.json',
+                    local: ''
+                },
+                appointments: {
+                    remote: appCq5Host + appCq5Path + '/appointments.json',
+                    local: ''
+                },
+                onlineForms: {
+                    remote: appCq5Host + appCq5Path + '/onlineForms.json',
+                    local: ''
+                },
+                serviceActivation: {
+                    remote: appCq5Host + appCq5Path + '/serviceActivation.json',
+                    local: ''
+                },
+                customerInteraction: {
+                    remote: appCq5Host + appCq5Path + '/app.json',
+                    local: ''
+                },
+                commercialReports: {
+                    remote: appCq5Host + appCq5Path + '/commercialReports.json',
+                    local: ''
+                },
+                chasePlan: {
+                    remote: appCq5Host + appCq5Path + '/chasePlan.json',
+                    local: ''
+                },
+                chaseRateAdvantage: {
+                    remote: appCq5Host + appCq5Path + '/chaseRateAdvantage.json',
+                    local: ''
+                },
+                cardServicing: {
+                    remote: appCq5Host + appCq5Path + '/cardServicing.json',
+                    local: ''
+                }
+            }
+        },
+        'common/lib/feature': {
+            feature: {
+                cardOverview: envProps.get('feature.cardOverview'),
+                multiCardOverview: envProps.get('feature.multiCardOverview'),
+                investmentOverview: envProps.get('feature.investmentOverview'),
+                singleDepositOverview: envProps.get('feature.singleDepositOverview'),
+                multiDepositOverview: envProps.get('feature.multiDepositOverview'),
+                singleLoanOverview: envProps.get('feature.singleLoanOverview'),
+                multiLoanOverview: envProps.get('feature.multiLoanOverview'),
+                multiProductOverview: envProps.get('feature.multiProductOverview'),
+                defaultPageOVD: envProps.get('feature.defaultPageOVD'),
+                landingRedirector: envProps.get('feature.landingRedirector'),
+                etdActivity: envProps.get('feature.etdActivity'),
+                enhancedTransactionDetails: envProps.get('feature.activity.enhancedTransactionDetails'),
+                enhancedTransactionDetailsBusinessCard: envProps.get('feature.activity.enhancedTransactionDetailsBusinessCard'),
+                customerAnnouncementsPassThroughEnabled: envProps.get('feature.customerAnnouncementsPassThroughEnabled'),
+                customerAnnouncementsEnabled: envProps.get('feature.customerAnnouncementsEnabled'),
+                cmlCustomerAnnouncementsEnabled: envProps.get('feature.cmlCustomerAnnouncementsEnabled'),
+                creCustomerAnnouncementsEnabled: envProps.get('feature.creCustomerAnnouncementsEnabled'),
+                jpoCustomerAnnouncementsEnabled: envProps.get('feature.jpoCustomerAnnouncementsEnabled'),
+                cpoCustomerAnnouncementsEnabled: envProps.get('feature.cpoCustomerAnnouncementsEnabled'),
+                cpcCustomerAnnouncementsEnabled: envProps.get('feature.cpcCustomerAnnouncementsEnabled'),
+                cboCustomerAnnouncementsEnabled: envProps.get('feature.cboCustomerAnnouncementsEnabled'),
+                etdDisputesEnabled: envProps.get('feature.gallery.etdDisputes.enabled'),
+
+                gwmAccountsSummaryBlade: envProps.get('feature.gwmAccountsSummaryBlade'),
+                gwmActionCenter: envProps.get('feature.gwmActionCenter'),
+                gwmAdvisorModule: envProps.get('feature.gwmAdvisorModule'),
+                gwmAggregateTransactions: envProps.get('feature.gwmAggregateTransactions'),
+                gwmCustomGroups: envProps.get('feature.gwmCustomGroups'),
+                gwmOverview: envProps.get('feature.gwmOverview'),
+                gwmOverviewXS: envProps.get('feature.gwmOverviewXS'),
+                gwmTaxCenter: envProps.get('feature.gwmTaxCenter'),
+
+                refactoredActivity: {
+                    enhancedTransactionDetails: envProps.get('feature.activity.enhancedTransactionDetails'),
+                    enhancedTransactionDetailsBusinessCard: envProps.get('feature.activity.enhancedTransactionDetailsBusinessCard'),
+                    default: envProps.get('feature.refactoredActivity'),
+                    DDA: {
+                        default: envProps.get('feature.refactoredActivity.DDA')
+                    },
+                    CARD: {
+                        default: envProps.get('feature.refactoredActivity.CARD')
+                    },
+                    LOAN: {
+                        default: envProps.get('feature.refactoredActivity.LOAN'),
+                        CRF: envProps.get('feature.refactoredActivity.LOAN.CRF')
+                    },
+                    MORTGAGE: {
+                        default: envProps.get('feature.refactoredActivity.MORTGAGE')
+                    },
+                    AUTOLOAN: {
+                        default: envProps.get('feature.refactoredActivity.AUTOLOAN')
+                    },
+                    AUTOLEASE: {
+                        default: envProps.get('feature.refactoredActivity.AUTOLEASE')
+                    }
+                },
+                ODSActivity: {
+                    ACTIVITY: {
+                        DDA: envProps.get('feature.ODSService.activity.DDA'),
+                        CARD: envProps.get('feature.ODSService.activity.CARD')
+                    },
+                    RECENT_ACTIVITY: {
+                        DDA: envProps.get('feature.ODSService.recentActivity.DDA'),
+                        CARD: envProps.get('feature.ODSService.recentActivity.CARD')
+                    }
+                }
+            },
+        },
+        'blue-app/validate/types': {
+            types: {
+                AlertsProfileNickname: {
+                    constraints: [{
+                        type: 'Pattern',
+                        params: {
+                            regex: '^[a-zA-Z0-9_\\s]+$'
+                        }
+                    }]
+                }
+            }
+        },
+        'appkit-utilities/sessionTimeout/timeout': {
+            enableCrossDomainCommunication: true,
+            target: envProps.get('app.domainconnector.host'),
+            host: 'https://'+ envProps.get('baseServiceUrl')
+        },
+        services: [],
+        'dashboard/service/interceptor/emulationTokenInterceptor': {
+            requestedPersonId: window.requestedPersonId,
+            emulationTokenIdentifier: window.emulationTokenIdentifier
+        }
+    };
+
+    if (appRoutesNameMapper[loadAppUser] === 'interestedparty') {
+        appConfig['interestedparty/boot'] = {
+            state: 'navigate',
+            useLocalizedTemplates: envProps.get('app.useLocalizedTemplates'),
+            appAssetSplitCSS: envProps.get('app.asset.splitCSS'),
+            appAssetDiffCSS: envProps.get('app.content.domain') + '/dashboard/assets/purecss/diff.css',
+            isUserAuthenticated: isUserAuthenticated,
+            userProfileSource: 'template',
+            isPodDataEnabled: false,
+            logonFrameUrl: '/web/auth/?fromOrigin=' + document.location.origin
+        };
+
+        appConfig['interestedparty/service/content'] = {
+            useLocalContent: false,
+            useBrandContent: envProps.get('app.content.useBrandContent'),
+            contentLanguage: appLanguage || LANGUAGE_CODE_ENGLISH,
+            contentSite: envProps.get('app.cq5.env'),
+            contentVersion: envProps.get('app.content.bundleVersion'),
+
+            contentUrls: {
+                app: {
+                    remote: appCq5Host + appCq5Path + '/app.json',
+                    local: ''
+                },
+                dashboard: {
+                    remote: appCq5Host + appCq5Path + '/interestedParty.json',
+                    local: ''
+                }
+            }
+        };
+
+        appConfig['require']['paths']['investments'] = 'dashboard/investments/js';
+    }
+
+    if (appRoutesNameMapper[loadAppUser] === 'thirdpartyaccess') {
+        appConfig['thirdpartyaccess/boot'] = {
+            isUserAuthenticated: isUserAuthenticated,
+            logonFrameUrl: '/web/auth/?fromOrigin=' + document.location.origin + '&treatment=TPA'
+        };
+
+        appConfig['blue-app/app']['classicBaseUrl'] = envProps.get('app.classic.chaseonline.web.domain');
+        appConfig['blue-app/app']['authServiceCrossDomain'] = true;
+        appConfig['blue-app/app']['cq5ResourceBase'] = cq5Url;
+        appConfig['blue-app/app']['dpsAuthPath'] = authUrl + '/web/auth/';
+        appConfig['blue-app/app']['versionedAssetsEnabled'] = envProps.get('app.versionedAssetsEnabled');
+        appConfig['blue-app/app']['versionedAssetsBaseUrl'] = envProps.get('app.versionedAssets.content.domain');
+
+        appConfig['thirdpartyaccess/thirdpartyaccess'] = {
+            hybridBundle: 'hybrid'
+        };
+
+        appConfig['require']['paths']['logon'] = 'logon/js';
+        appConfig['require']['paths']['thirdpartyaccess'] = 'thirdpartyaccess/js';
+        appConfig['require']['paths']['aggregator'] = 'thirdpartyaccess/aggregator/js';
+
+        appConfig['analytics/eventTracker']['analytics']['maxReattempts'] = envProps.get('app.analytics.maxReattempts.count');
+        appConfig['analytics/eventTracker']['analytics']['cooloffPeriod'] = envProps.get('app.analytics.cooloffPeriod.millisec');
+
+        appConfig['thirdpartyaccess/service/content'] = {
+            //CQ5 settings
+            remoteContentUrl: cq5Url + '/content/resource-bundles/:site/:version/:language/bundles.json/logon.json',
+            useLocalContent: false,
+            contentLanguage: appLanguage || LANGUAGE_CODE_ENGLISH,
+            contentSite: envProps.get('app.cq5.env'),
+            contentVersion: envProps.get('app.content.bundleVersion'),
+            contentUrls: {
+                app: {
+                    //common content like language_en.props equivalent can be configured here
+                    //Note: 'app' is a reserved word in this config
+                    remote: appCq5Host + appCq5Path +'/app.json',
+                    local: 'http://localhost:9000'+ '/common/assets/content/app.json'
+                },
+                aggregator: {
+                    remote: appCq5Host + appCq5Path +'/aggregator.json',
+                    local: 'http://localhost:9000'+ '/common/assets/content/aggregator.json'
+                },
+                qpEnroll: {
+                    remote: appCq5Host + appCq5Path +'/qpEnroll.json',
+                    local: 'http://localhost:9000'+ '/common/assets/content/qpEnroll.json'
+                }
+            }
+        };
+        if(redirect_uri_validated) {
+            appConfig['aggregator/controller/mixin/legacyConsentValidation'] = {
+                whitelist: envProps.get('tpa.whitelist')
+                // You don't need to update these properties manually!! Use TPA Tools included
+                // with Mockey 2.0 to automatically update these properties when you test the flow
+            };
+            appConfig['aggregator/controller/consent'] = {
+                redirectUri: redirect_uri,
+                isValidClientRequest: redirect_uri_validated
+            };
+        } else {
+            appConfig['aggregator/controller/mixin/legacyConsentValidation'] = {
+                whitelist: envProps.get('tpa.whitelist')
+            };
+            appConfig['aggregator/controller/consent'] = {
+                isValidClientRequest: redirect_uri_validated
+            };
+        }
+
+
+        appConfig['common/lib/feature']['feature'] = {
+            genericErrorPageUri: envProps.get('app.genericErrorPageUri')
+        };
+
+        appConfig['blue-app/validate/types']['types'] = {
+            Password: {
+                constraints: [{
+                    type: "NonConsecutiveAlphaNumerics",
+                    params: {
+                        maxSeqential: 3
+                    }
+                }, {
+                    type: "NonRepeatingAlphaNumerics",
+                    params: {
+                        maxRepeating: 2
+                    }
+                }]
+            }
+        };
+    }
+
+    if (hybridBundle === 'hybrid' && hybrid) {
+        appConfig.require.paths.trade =  'dashboard/trade/js';
+        appConfig.require.paths.markets =  'dashboard/markets/js';
+        appConfig.require.paths.investments =  'dashboard/investments/js';
+        appConfig.require.paths.advisorContact =  'dashboard/advisorContact/js';
+    }
+
+    if(versionedAssets.isEnabled()) {
+        for (var jsAsset in versionedAssets.buckets.js) {
+            var assetPath = versionedAssets.baseUrl() + versionedAssets.buckets.js[jsAsset];
+            appConfig.require.paths[jsAsset] = assetPath;
+        }
+    }
+};
+
+var getVersionedAssets = function(envProps) {
+    var PREFIX = 'app.versionedAssets.';
+    var ALL_KEYS = 'allKeys';
+    var HYBRID_REGEX = /\/([^\/]+)$/;
+    var va = {};
+
+    va.buckets = {
+        js: {},
+        hybrid_js: {},
+        css: {},
+        dependencies: {}
+    };
+
+    var isHybrid = envProps.get('app.hybrid.bundles').indexOf(
+        ',' + hybridBundle + ',');
+    hybridBundle = isHybrid ? hybridBundle : null;
+    if (envProps.isVersionedAssetsEnabled()) {
+        setKeys();
+    }
+
+    function setKeys() {
+        envProps.getVersionedKeys().forEach(function (key) {
+            var actualKey = key.replace(PREFIX, '');
+            var bucketName = actualKey.split('.')[0];
+            var bucket = va.buckets[bucketName];
+            actualKey = actualKey.replace(
+                bucketName + '.', '').replace(/\./g, '/');
+            bucket[actualKey] = envProps.getVersionedAsset(key);
+        });
+    }
+
+    va.isEnabled = function () {
+        return envProps.isVersionedAssetsEnabled();
+    };
+
+    va.baseUrl = function () {
+        if (envProps.isVersionedAssetsEnabled()){
+            return envProps.get('app.versionedAssets.content.domain');
+        }
+
+        return envProps.get('app.content.domain');
+    };
+
+    va.getHybridAsset = function (key) {
+        var hybridKey = key.replace(
+            HYBRID_REGEX, '/' + hybridBundle + '_$1');
+        return va.buckets.hybrid_js[hybridKey];
+    };
+
+    va.getJSAsset = function(key) {
+        return va.buckets.js[key];
+    };
+
+    va.getCSSAsset = function (key) {
+        return va.buckets.css[key];
+    };
+
+    return va;
+};
+var loaderCallback = function() {
+    var child, timeout, wait = 0,
+    win = window,
+    doc = document,
+    loader = win.loader,
+    msgDomain = (doc.location.protocol + '//' + doc.location.hostname + (doc.location.port ? ':' + doc.location.port : '')).toLowerCase(),
+    appBoot =  appsBootMapper[loadAppUser] ? appsBootMapper[loadAppUser] : 'dashboard/boot',
+    bootConfig = win.appConfig[appBoot] || {},
+    bootManager = { perf: {} },
+    timerMark = function(label) {
+        bootManager.perf[label] = Date.now();
+        console && console.timeStamp && console.timeStamp(label);
+    },
+    go = function() {
+        var deps = [];
+        if (wait++ < 1) {
+            return;
+        }
+
+        deps.push('blue-boot/boot');
+        require(deps);
+    },
+    download = function() {
+
+        var cq5Packages = { packages: {} },
+        lang = LANGUAGE_CODE_ENGLISH;
+        doc.cookie.replace(/\bPC_1_0=([^;]+)/, function(cookie, PC_1_0) {
+            decodeURIComponent(PC_1_0).replace(/locale=([^_|]+)/, function(config, locale) {
+                if(locale && locale !=='undefined'){
+                    lang = locale;
+                }
+            });
+        });
+        var cq5PackagesHost = 'https://' + envProps.get('app.cq5.host') + '/content/resource-bundles/' + envProps.get('app.cq5.env') + '/' + envProps.get('app.content.bundleVersion') + '/' + lang + '/bundles.json/';
+        cq5Packages.packages[cq5PackagesHost + brand] = {
+            json: {
+                app: 0,
+                accounts: 0,
+                convoDeck: 0
+            }
+        };
+        loader.init(cq5Packages);
+
+        var appPackages = { packages: {} };
+
+        if(envProps.get('app.blueJSVersion.enabled')){
+            appPackages.packages[envProps.get('app.blue.domain')] = {
+                js: {}
+            };
+
+            //TODO- Clean afte client env props is added with app.blueViewRactive.version
+            var versionedRactivePath = '/blue-view-ractive/dist/blue-view-ractive/1.1.0/js';
+
+            appPackages.packages[envProps.get('app.blue.domain')].js[envProps.get('app.blueBoot.version') + '/main-ver'] = 0;
+            appPackages.packages[envProps.get('app.blue.domain')].js[envProps.get('app.blueVendor.version') + '/main'] = 0;
+            appPackages.packages[envProps.get('app.blue.domain')].js[envProps.get('app.blue.version') + '/main'] = 0;
+            appPackages.packages[envProps.get('app.blue.domain')].js[envProps.get('app.blueApp.version') + '/main'] = 0;
+            appPackages.packages[envProps.get('app.blue.domain')].js[envProps.get('app.blueView.version') + '/main'] = 0;
+            appPackages.packages[envProps.get('app.blue.domain')].js[(envProps.get('app.blueViewRactive.version') || versionedRactivePath) + '/view'] = 0;
+        }
+
+        var cssAssetsMap = {
+            dashboard: {
+                'common/assets/blue-ui': 0,
+                'dashboard/assets/dashboard': 0,
+            },
+            interestedparty: {
+                'common/assets/blue-ui': 0,
+                'dashboard/assets/dashboard': 0,
+                'interestedparty/assets/interestedparty': 0
+            },
+            thirdpartyaccess: {
+                'common/assets/blue-ui': 0,
+                'thirdpartyaccess/assets/thirdpartyaccess': 0
+            },
+            get: function(appName){ return this[appName] || this.dashboard}
+        };
+
+        appPackages.packages[envProps.get('app.content.domain') + '/'] = {
+            js: {},
+            css: cssAssetsMap.get(loadAppUser)
+        };
+
+
+        if(envProps.get('app.blueJSVersion.enabled')){
+            appPackages.packages[envProps.get('app.content.domain') + '/'].js = {
+                'blue-ui/dist/blue-ui/js/main': 0,
+                'appkit/js/main': 0,
+                'common/js/kit/main': 0
+            };
+        } else {
+            appPackages.packages[envProps.get('app.content.domain') + '/'].js = {
+                'blue-boot/dist/blue-boot/js/main': 0,
+                'blue-vendor/dist/blue-vendor/js/main': 0,
+                'blue-core/dist/blue/js/main': 0,
+                'blue-app/dist/blue-app/js/main': 0,
+                'blue-view/dist/blue-view/js/main': 0,
+                'blue-view-ractive/dist/blue-view-ractive/js/view': 0,
+                'blue-ui/dist/blue-ui/js/main': 0,
+                'appkit/js/main': 0,
+                'common/js/kit/main':0
+            };
+        }
+        var pathResolve = (hybrid ? hybridBundle + '_' : '');
+        var appkitMain = 'appkit/js/main';
+        var commonkitMain = 'common/js/kit/main';
+        var appBootMainMap = {
+            dashboard: {
+                boot: 'dashboard/js/' + pathResolve + 'boot',
+                main: 'dashboard/js/' + pathResolve + 'main'
+            },
+            interestedparty: {
+                boot: 'interestedparty/js/boot',
+                main: 'interestedparty/js/main'
+            },
+            thirdpartyaccess: {
+                boot: 'thirdpartyaccess/js/' + pathResolve + 'boot',
+                main: 'thirdpartyaccess/js/' + pathResolve + 'main'
+            },
+            get: function(key){
+                return this[key] || this.dashboard;
+            }
+        };
+        var applicationBoot = appBootMainMap.get(loadAppUser).boot;
+        var applicationMain = appBootMainMap.get(loadAppUser).main;
+
+
+        if (versionedAssets.isEnabled()) {
+            appPackages.packages[versionedAssets.baseUrl()] = {
+                js: {}
+            };
+
+            delete appPackages.packages[envProps.get('app.content.domain') + '/'].js['appkit/js/main'];
+            var appkitMain = versionedAssets.getJSAsset('appkit/main');
+            appPackages.packages[versionedAssets.baseUrl()].js[appkitMain] = 0;
+
+            delete appPackages.packages[envProps.get('app.content.domain') + '/'].js['common/js/kit/main'];
+            var commonkitMain = versionedAssets.getJSAsset('common/kit/main');
+            appPackages.packages[versionedAssets.baseUrl()].js[commonkitMain] = 0;
+
+            applicationBoot = versionedAssets.getJSAsset('dashboard/boot');
+            applicationMain = versionedAssets.getJSAsset('dashboard/main');
+
+            if (loadAppUser){
+                applicationBoot = versionedAssets.getJSAsset(loadAppUser + '/boot');
+                applicationMain = versionedAssets.getJSAsset(loadAppUser + '/main');
+            }
+
+            if(hybrid){
+                applicationBoot = versionedAssets.getHybridAsset('dashboard/boot');
+                applicationMain = versionedAssets.getHybridAsset('dashboard/main');
+                if (loadAppUser === 'thirdpartyaccess') {
+                    applicationBoot = versionedAssets.getHybridAsset('thirdpartyaccess/boot');
+                    applicationMain = versionedAssets.getHybridAsset('thirdpartyaccess/main');
+                }
+            }
+            appPackages.packages[versionedAssets.baseUrl()].js[applicationBoot] = 0;
+            appPackages.packages[versionedAssets.baseUrl()].js[applicationMain] = 0;
+
+        } else {
+
+            appPackages.packages[envProps.get('app.content.domain') + '/'].js[applicationBoot] = 0;
+            appPackages.packages[envProps.get('app.content.domain') + '/'].js[applicationMain] = 0;
+
+        }
+
+        loader.init(appPackages);
+
+        loader.ready(function() {
+            var errorUrl = envProps.get('app.genericErrorPageUri'),
+                iOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream),
+                loadGroups = [];
+
+            var pathResolve = (hybrid ? hybridBundle + '_' : '');
+            var bootMainMap = {
+                dashboard: {
+                    boot: 'dashboard/js/' + pathResolve + 'boot',
+                    main: 'dashboard/js/' + pathResolve + 'main'
+                },
+                interestedparty: {
+                    boot: 'interestedparty/js/boot',
+                    main: 'interestedparty/js/main'
+                },
+                thirdpartyaccess: {
+                    boot: 'thirdpartyaccess/js/' + pathResolve + 'boot',
+                    main: 'thirdpartyaccess/js/' + pathResolve + 'main'
+                },
+                get: function(key){
+                    return this[key] || this.dashboard;
+                }
+            };
+            var applicationBoot = bootMainMap.get(loadAppUser).boot;
+            var applicationMain = bootMainMap.get(loadAppUser).main;
+            var appkitMain = 'appkit/js/main',
+                commonkitMain = 'common/js/kit/main';
+
+            if (versionedAssets.isEnabled()) {
+                applicationBoot = versionedAssets.getJSAsset('dashboard/boot');
+                applicationMain = versionedAssets.getJSAsset('dashboard/main');
+
+                if (loadAppUser) {
+                    applicationBoot = versionedAssets.getJSAsset(loadAppUser + '/boot');
+                    applicationMain = versionedAssets.getJSAsset(loadAppUser + '/main');
+                }
+
+                appkitMain = versionedAssets.getJSAsset('appkit/main');
+                commonkitMain = versionedAssets.getJSAsset('common/kit/main');
+                if(hybrid) {
+                    applicationBoot = versionedAssets.getHybridAsset(loadAppUser + '/boot');
+                    applicationMain = versionedAssets.getHybridAsset(loadAppUser + '/main');
+                }
+            }
+
+            loadGroups.push([{
+                path: 'common/assets/blue-ui',
+                failure: loader.handlers.ignore,
+                defer: false,
+                precache: false
+            }]);
+
+            var appLoadGroup = {
+                dashboard: [{
+                    path: 'dashboard/assets/dashboard',
+                    failure: loader.handlers.ignore,
+                    defer: false,
+                    precache: false
+                }],
+                interestedparty: [{
+                    path: 'dashboard/assets/dashboard',
+                    failure: loader.handlers.ignore,
+                    defer: false,
+                    precache: false
+                }, {
+                    path: 'interestedparty/assets/interestedparty',
+                    failure: loader.handlers.ignore,
+                    defer: false,
+                    precache: false
+                }],
+                thirdpartyaccess: [{
+                    path: 'thirdpartyaccess/assets/thirdpartyaccess',
+                    failure: loader.handlers.ignore,
+                    defer: false,
+                    precache: false
+                }],
+                get: function (key) {
+                    return this[key] || this.dashboard;
+                }
+            };
+            [].push.apply(loadGroups[0], appLoadGroup.get(loadAppUser));
+
+            if(envProps.get('app.blueJSVersion.enabled')){
+                var versionedRactivePath = '/blue-view-ractive/dist/blue-view-ractive/1.1.0/js';
+                loadGroups.push([
+                    envProps.get('app.blueVendor.version') + '/main',
+                    envProps.get('app.blue.version') + '/main',
+                    envProps.get('app.blueApp.version') + '/main',
+                    envProps.get('app.blueView.version') + '/main',
+                    (envProps.get('app.blueViewRactive.version') || versionedRactivePath) + '/view',
+                    'blue-ui/dist/blue-ui/js/main',
+                    appkitMain,
+                    commonkitMain,
+                    applicationBoot,
+                    applicationMain
+                ]);
+
+                loadGroups.push([{
+                    path: envProps.get('app.blueBoot.version') + '/main-ver',
+                    failure: loader.handlers.redirect(envProps.get('app.error.scriptErrorPageUri')),
+                    defer: false
+                }]);
+            } else {
+                loadGroups.push([
+                    'blue-app/dist/blue-app/js/main',
+                    'blue-core/dist/blue/js/main',
+                    'blue-vendor/dist/blue-vendor/js/main',
+                    'blue-view/dist/blue-view/js/main',
+                    'blue-view-ractive/dist/blue-view-ractive/js/view',
+                    'blue-ui/dist/blue-ui/js/main',
+                    appkitMain,
+                    commonkitMain,
+                    applicationBoot,
+                    applicationMain
+                ]);
+
+                loadGroups.push([{
+                    path: 'blue-boot/dist/blue-boot/js/main',
+                    failure: loader.handlers.redirect(envProps.get('app.error.scriptErrorPageUri')),
+                    defer: false
+                }]);
+            }
+
+            loadGroups[1].concat(iOS || hybrid ? [] : ['app','accounts','convoDeck']);
+
+            loader.loadGroups(loadGroups, {
+                failure: loader.handlers.redirect(errorUrl),
+                defer: true,
+                precache: !iOS
+            });
+
+            loader.complete(function() {
+                try {
+                    win.localStorage.setItem('blueNetworkAnalysisData',JSON.stringify({
+                        derivedSpeed: loader.getSpeed() / 1024,
+                        data: loader.getStats()
+                    }));
+                } catch (ignore) {}
+
+                if (hybrid) {
+                    if(loadAppUser === 'thirdpartyaccess') {
+                        require.config({
+                            paths: {
+                                'thirdpartyaccess/boot': 'thirdpartyaccess/js/' + hybridBundle + '_boot',
+                                'thirdpartyaccess/boot/page': 'thirdpartyaccess/js/boot/page',
+                                'thirdpartyaccess/main': 'thirdpartyaccess/js/' + hybridBundle + '_main'
+                            }
+                        });
+                        if (versionedAssets.isEnabled()){
+                            require.config({
+                                paths: {
+                                    'thirdpartyaccess/boot': versionedAssets.baseUrl() + versionedAssets.getHybridAsset('thirdpartyaccess/boot'),
+                                    'thirdpartyaccess/main': versionedAssets.baseUrl() + versionedAssets.getHybridAsset('thirdpartyaccess/main')
+                                }
+                            });
+                        }
+                    } else {
+                        require.config({
+                            paths: {
+                                'dashboard/boot': 'dashboard/js/' + hybridBundle + '_boot',
+                                'dashboard/boot/page': 'dashboard/js/boot/page',
+                                'dashboard/main': 'dashboard/js/' + hybridBundle + '_main'
+                            }
+                        });
+                        if (versionedAssets.isEnabled()){
+                            require.config({
+                                paths: {
+                                    'dashboard/boot': versionedAssets.baseUrl() + versionedAssets.getHybridAsset('dashboard/boot'),
+                                    'dashboard/main': versionedAssets.baseUrl() + versionedAssets.getHybridAsset('dashboard/main')
+                                }
+                            });
+                        }
+                    }
+                }
+
+                try {
+                    timerMark(loadAppUser + '-loaded');
+                    go();
+                } catch (e) {
+                    clientEnvProps = null;
+                    doc.location = errorUrl;
+                }
+            });
+        });
+    },
+    setTitle = function(title) {
+        title && (doc.title = title);
+    },
+    getAppNameFromHash = function(hash) {
+        var splitHash = hash.split('/');
+        return (hash.indexOf('/') === 0 || hash.indexOf('#') === 0) ? splitHash[1] : splitHash[0];
+    },
+    //Below function hides the logon iframe from dashboard
+    removeLogon = function() {
+        var el = doc.getElementById('logonDialog');
+        if (el) {
+            el.style.opacity = 0;
+            doc.getElementById('body').style.display = 'block';
+            doc.getElementsByTagName('body')[0].classList.remove('fixheader');
+            setTimeout(function() {
+                var box = doc.getElementById('logonbox');
+                box.src = '';
+                win.focus();
+                box.parentElement.removeChild(box);
+                el.style.display = 'none';
+            }, 500);
+        }
+    },
+    navigate = function(url, forceNavigate) {
+        var currentAppName = loadAppUser ? loadAppUser : 'dashboard';
+        if (currentAppName === 'dashboard' && url === '/authComplete') { // url magic string from logon navigate
+            removeLogon();
+            return;
+        }
+        var a = doc.createElement('a'),
+        navigateAppName;
+        a.href = url;
+        navigateAppName = getAppNameFromHash(a.hash);
+        if (a.hostname !== doc.location.hostname || navigateAppName !== currentAppName || a.search !== doc.location.search) {
+            doc.location = url;
+            return true;
+        }
+        if (forceNavigate) {
+            doc.location = url;
+            doc.location.reload(true);
+            setTimeout(function () {
+                /*
+                    Some browsers do not reload the page even when we call location.reload(true). Just in case the above line did not do
+                    the job, we will submit a separate task on the event queue to reload the page 100ms later.
+                */
+                doc.location.reload(true);
+            }, 100);
+            return true;
+        }
+        location.hash = a.hash;
+        removeLogon();
+    },
+    sendAck = function() {
+        child.postMessage({
+            ackCommand: 'ready',
+            command: 'ack',
+            domain: msgDomain,
+            message: 'parent ready',
+            protocol: 'handshake'
+        }, msgDomain);
+    },
+    showLogon = function() {
+        doc.getElementById('logonDialog').style.opacity = 1;
+    },
+    //
+    // fix iOS scrolling as described by https://davidwalsh.name/scroll-iframes-ios
+    //
+    fixIosIframeScrolling = function fixIosIframeScrolling(iframeContainer) {
+        if (platform.os.family === 'iOS') {
+            iframeContainer.style.overflowY = 'visible';  //changed to visible to address the issue with page loading in some mobile IOS devices
+
+            // when iframeContainer is fixed, some hard-to-explain scrolling
+            // issues occur when a modal is opened. After modal is dismissed,
+            // sometimes the iframeContainer doesn't scroll on iOS device.
+            // Changing to absolute position seems to resolve the issue.
+            iframeContainer.style.position = 'absolute';
+        }
+    },
+    detachLogonListener = function detachLogonListener() {
+        if (win.removeEventListener) {
+            win.removeEventListener('message', onMessage, false);
+        } else {
+            win.detachEvent('onmessage', onMessage);
+        }
+    },
+    onMessage = function(event) {
+        if (!event || event.origin !== msgDomain) {
+            return;
+        }
+        var data = {};
+        try {
+            data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        } catch (e) {}
+
+        var options = data.data || {},
+            cmd = data.command;
+        var commandMap = {
+                ready: sendAck.bind(null, event),
+                setTitle: setTitle.bind(null, options.title),
+                netStart: function() {
+                    clearTimeout(timeout);
+                    timerMark('logon-start');
+                    return true;
+                },
+                netFinish: function() {
+                    timerMark('logon-loaded');
+                    download();
+                     return true;
+                },
+                viewRendered: function() {
+                    timerMark('logon-visible');
+                    showLogon();
+                    go();
+                    return false;
+                },
+                navigate: function() {
+                    if (options.reason === 'authSuccess') {
+                        detachLogonListener();
+                    }
+                    else if (options.reason === 'brandChanged') {
+                        doc.location.reload(true);
+                    }
+                    if (navigate(options.url, options.forceNavigate)) {
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            // invoke object mapper
+            if(commandMap[cmd] && commandMap[cmd]()){
+                return;
+            }
+
+        bootManager.state = cmd;
+        bootManager.update && bootManager.update(cmd);
+    };
+    bootConfig.mgr = function() {
+        return bootManager;
+    };
+    timerMark('page-start');
+    if (bootConfig.isUserAuthenticated || ( hybridBundle === 'hybrid' &&  hybrid) || loadAppUser === 'thirdpartyaccess') {
+        bootManager.state = 'navigate';
+        download();
+        go();
+    } else {
+        var el = doc.getElementById('logonDialog'),
+        iframe = doc.createElement('iframe'),
+        frameSrc = bootConfig.logonFrameUrl,
+        queryStringForLogon = (function() {
+            var i,
+                split,
+                returnQuery = '',
+                logonParamWhitelist = {
+                    treatment: true
+                },
+                queries = doc.location.search ? doc.location.search.replace(/^\?/, '').split('&') : [];
+
+            function getOperator(query) {
+                return (query.indexOf('?') >= 0) ? '&' : ((frameSrc.indexOf('?') >= 0) ? '&' : '?');
+            }
+
+            function filterNonAlphaNumeric(value) {
+                if (typeof value === 'string' && value.length < 20) {
+                    return value.replace(/[^a-zA-Z0-9]/g, '');
+                }
+                return '';
+            }
+
+            if (queries.length === 0) return returnQuery;
+
+            for (i = 0; i < queries.length; i++) {
+                split = queries[i].split('=');
+                if (logonParamWhitelist[split[0]]) {
+                    split[1] = filterNonAlphaNumeric(split[1]);
+                    if (split[1].length !== 0) {
+                        returnQuery += getOperator(returnQuery) + split.join('=');
+                    }
+                }
+            }
+            return returnQuery;
+        })();
+
+        if (!el) {
+            return;
+        }
+        fixIosIframeScrolling(el);
+        if (win.addEventListener) {
+            win.addEventListener('message', onMessage, false);
+        } else {
+            win.attachEvent('onmessage', onMessage);
+        }
+        iframe.src = frameSrc + queryStringForLogon;
+        iframe.scrolling = 'yes';
+        iframe.frameBorder = '0';
+        iframe.id = 'logonbox';
+        iframe.title = 'logon';
+        el.appendChild(iframe);
+        el.style.display = 'block';
+        doc.getElementById('body').style.display = 'none';
+        child = iframe.contentWindow;
+        timeout = setTimeout(showLogon, 20000);
+    }
+};
+
+var envProps = new EnvProps(clientEnvProps, propTypes);
+clientEnvProps = null;
+initAppConfig(envProps);
+initBrowserDetect(); //Call browser detect before loaderCallback
+envProps.log();
+/* jshint ignore:end */

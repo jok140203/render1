@@ -1,0 +1,2 @@
+define(["require","blue/settings"],function(e){"use strict";return e("blue/settings")});
+//# sourceMappingURL=../../../../../../sourcemap/blue-app/dist/2.18.0/blue-app/js/settings.js.map
