@@ -1,0 +1,1241 @@
+/**
+ * @copyright &copy; JPMorgan Chase & Co. All rights reserved.
+ * @module flyout/manifest
+ * @version 2.1.2
+ */
+define('flyout/manifest',{
+    version: 2,
+    controller: {
+        module: './controller',
+        viewPath: {
+            prefix: './view/'
+        },
+        components: {
+            flyout: {
+                module: './component/flyout',
+                spec: './spec/flyoutSpec',
+                model: 'flyout',
+                modelCleanup: true
+            }
+        }
+    }
+});
+
+define('flyout/lib/flyoutUtility',[],function() {
+    'use strict'
+    //Restrict page refresh from following flyouts
+    var exceptionFlyoutList = ['announcement', 'announcementDetails', 'spendingReport', 'transactionDetails', 'ctlPaymentReceivedBreakdown', 'personalizeBorrowing', 'cardActivation', 'pendingApprovalsEdit', 'cardOnFileActivity'],
+        detailsExceptionFlyoutList = ['announcementDetails'];
+
+    /**
+     * Returns the name of the flyout parameter
+     * @param {object} state
+     */
+    function getFlyoutContextName(state) {
+        var _name = '',
+            flyoutParam = state && state.action && state.action.params && state.action.params.flyout;
+        if (flyoutParam) {
+            _name = typeof flyoutParam === 'string' ? flyoutParam : flyoutParam[0];
+        }
+        return _name;
+    }
+
+    /**
+     * Returns a boolean of whether the passed state has the flyout parameter
+     * @param {object} state
+     */
+    function isFlyout(state) {
+        return !!(state && state.action && state.action.params && state.action.params.flyout);
+    }
+
+    /**
+     * Check if routeHistory has a 2nd entry (if so than its not a first page view or a refresh).
+     * @method isRefresh
+     **/
+    function isRefresh(context) {
+        return !context.routeHistory.getHistory(1);
+    }
+
+    /**
+     * Current state is from exception flyout list
+     * @param {object} state - current state
+     * @returns - true if current state from exception flyout
+     */
+    function isExceptionFlyout(state) {
+        var flyoutParams;
+
+        if (Array.isArray(state.action.params.flyout)) {
+            flyoutParams = state.action.params.flyout[0];
+        } else {
+            flyoutParams = state.action.params.flyout;
+        }
+
+        return isFlyout(state) &&
+            exceptionFlyoutList.indexOf(flyoutParams) > -1;
+    }
+
+    /**
+     * Current state is from details exception flyout list
+     * @param {object} state - current state
+     * @returns - true if current state from details exception flyout
+     */
+    function isDetailsExceptionFlyout(state) {
+        return isFlyout(state) && detailsExceptionFlyoutList.indexOf(state.action.params.flyout) > -1;
+    }
+
+    /**
+     * Restrict background page refresh on open/close flyout
+     * @param {object} controllerContext
+     * @returns - true if current or previous state from exception flyout list
+     */
+    function isFlyoutNavigation(controllerContext) {
+        var prevRoute = controllerContext.routeToObject(controllerContext.routeHistory.lastRoute(1));
+        return isExceptionFlyout(controllerContext.state()) || isExceptionFlyout(prevRoute);
+    }
+
+    /**
+     * Restrict background page refresh on open/close flyout
+     * @param {object} controllerContext
+     * @returns - true if current or previous state from details exception flyout list
+     */
+    function isDetailsFlyoutNavigation(controllerContext) {
+        var prevRoute = controllerContext.routeToObject(controllerContext.routeHistory.lastRoute(1));
+        return isDetailsExceptionFlyout(controllerContext.state()) || isDetailsExceptionFlyout(prevRoute);
+    }
+
+    /**
+     * Restrict background page refresh on open/close flyout
+     * This should be used over others when the flyout data is not dependent on previous route
+     * @param {object} controllerContext
+     * @returns - true if current or previous route has flyout param
+     */
+    function isFlyoutRoute(controllerContext) {
+        var prevRoute = controllerContext.routeToObject(controllerContext.routeHistory.lastRoute(1));
+        return isFlyout(controllerContext.state()) || controllerContext.is.defined(prevRoute.action.params.flyout);
+    }
+
+    function repaintElementClass(selector, className) {
+        var elem = document.querySelector(selector);
+
+        if (elem) {
+            elem.classList.add(className);
+            elem.offsetHeight;
+            elem.classList.remove(className);
+        }
+    }
+
+    return {
+        /* Public */
+        SIZES: {
+            standard: 'flyoutSize-standard',
+            small: 'flyoutSize-small',
+            large: 'flyoutSize-large'
+        },
+        ELEMENTS: {
+            siblingContainer: '#dashboard-content, #main-container',
+            spinnerContainer: '#flyoutSpinnerContainer',
+            wrapper: '#flyoutWrapper',
+            content: '#flyoutContent',
+            contentWrapper: '#flyoutContentWrapper',
+            header: '#flyoutHeaderContent',
+            footer: '#flyoutFooterContent',
+            closeButton: '#flyoutClose'
+        },
+        CLASS_NAMES: {
+            enabled: 'flyout-enabled'
+        },
+        isFlyout: isFlyout,
+        isFlyoutRoute: isFlyoutRoute,
+        getFlyoutContextName: getFlyoutContextName,
+        isFlyoutNavigation: isFlyoutNavigation,
+        isDetailsFlyoutNavigation: isDetailsFlyoutNavigation,
+        isExceptionFlyout: isExceptionFlyout,
+        isRefresh: isRefresh,
+        repaintElementClass: repaintElementClass
+    };
+
+});
+define('flyout/controller',['require','blue/util','flyout/lib/flyoutUtility'],function(require) {
+    'use strict'
+    var objUtil = require('blue/util').object,
+        flyoutUtil = require('flyout/lib/flyoutUtility');
+
+    return function FlyoutController(controllerContext) {
+
+        var thisController = this;
+
+        /**
+         * Register component if its not already registered.
+         * @method index
+         **/
+        thisController.index = function(params) {
+            var cav = [],
+                flyout = 'flyout',
+                currentState = controllerContext.state();
+
+            if (currentState.action.params.flyout && flyoutUtil.isRefresh(controllerContext)) {
+                delete currentState.action.params.flyout;
+                controllerContext.state(currentState);
+            }
+
+            if (!thisController.registry.hasComponent('flyout')) {
+                thisController.registry.updateComponent(flyout, {});
+                cav.push([thisController.components[flyout], flyout, {
+                    target: '#flyoutWrapper'
+                }]);
+            }
+
+            if (params.flyoutSettings) {
+                var flyoutSettings = thisController.model.get('flyout.flyoutSettings') || {};
+                thisController.model.set('flyout.flyoutSettings', objUtil.merge(flyoutSettings, JSON.parse(params.flyoutSettings)));
+            }
+
+            return cav;
+        };
+
+        thisController.teardown = function() {
+            // Calling destory() on an uninitialized component, initializes it
+            thisController.registry.hasComponent('flyout') && thisController.components.flyout.destroy();
+        };
+
+    };
+});
+/**
+ * @copyright &copy; JPMorgan Chase & Co. All rights reserved.
+ * @module flyout
+ **/
+define('flyout/component/flyout',['require','mout/lang','flyout/lib/flyoutUtility'],function(require) {
+    'use strict'
+
+    var lang = require('mout/lang'),
+        flyoutUtil = require('flyout/lib/flyoutUtility'),
+        thisComponent;
+        // deepLinkFlyoutSettingsUtil = require('flyout/lib/common/deepLinkFlyoutSettingsUtil'),
+        // deepLinkFlyoutSettings = deepLinkFlyoutSettingsUtil.getFlyoutSettings();
+
+    return function flyoutComponent(componentContext) {
+
+        thisComponent = this;
+
+        var dataObject = {},
+            defaultExitAda,
+            setParams = function(key, options) {
+                var params,
+                    flyoutSettings = thisComponent.flyoutSettings[key];
+                if (flyoutSettings.params && flyoutSettings.params.length) {
+                    params = {};
+                    options.forEach(function(val, i) {
+                        params[flyoutSettings.params[i]] = val;
+                    });
+                }
+                return params;
+            },
+            setupBackButton = function(config) {
+                var backIconAdaHATKey = config.backIconAdaHATKey;
+                thisComponent.backButtonShownState = true;
+                //save the key in case a different fly-out is opened w/ the same backLabel variation
+                if (backIconAdaHATKey !== thisComponent.currentBackIconAdaHATKey) {
+                    thisComponent.currentBackIconAdaHATKey = backIconAdaHATKey;
+                    componentContext.dcu.dynamicContent.set(thisComponent, 'backLabel', backIconAdaHATKey);
+                }
+            },
+            setupCloseButton = function(config, params) {
+                var closeAdaHATKey = config.closeAdaHATKey;
+                //save the key in case a different flyout is opened w/ the same exitAda variation
+                if (closeAdaHATKey !== thisComponent.currentCloseAdaHATKey) {
+                    thisComponent.currentCloseAdaHATKey = closeAdaHATKey;
+                    if (config.closeAdaHATKeyDataToken) {
+                        dataObject[config.closeAdaHATKeyDataToken] = params[config.closeAdaHATKeyDataToken];
+                    }
+
+                    var flyoutSpecificExitAda = componentContext.dcu.dynamicContent.get(thisComponent, 'exitAda', closeAdaHATKey, dataObject);
+                    thisComponent.exitAda = flyoutSpecificExitAda || defaultExitAda;
+                }
+            },
+            configureFlyout = function(config) {
+                //show the flyout and set size if defined
+                thisComponent.applicationFlyoutShownState = true;
+                thisComponent.screenSize = lang.defaults(config.size, flyoutUtil.SIZES.standard);
+                thisComponent.classes = lang.defaults(config.classes, '');
+                thisComponent.displayHeader = config.displayHeader !== undefined ? config.displayHeader : true;
+                thisComponent.displayHeaderText = config.displayHeaderText || false;
+                thisComponent.pageHeader = config.pageHeader || '';
+                thisComponent.hasGradientBar = !!config.hasGradientBar;
+            };
+
+        thisComponent.init = function() {
+            thisComponent.exitAda = null;
+            thisComponent.backButtonShownState = false;
+            thisComponent.lastRoute = null;
+            componentContext.on({
+                'blue:routeChange': thisComponent.handleRouteChange,
+                'flyout:exit': thisComponent.exitTask,
+                'flyout:updateFlyOutObject': thisComponent.updateFlyOutObject
+            });
+        };
+
+        thisComponent.onReady = function() {
+            componentContext.globalContentMixin.call(thisComponent, ['exitAda']);
+            defaultExitAda = thisComponent.exitAda;
+        };
+
+        thisComponent.isPathChange = function(routeData) {
+            var lastRoute = componentContext.routeHistory.lastRoute();
+            lastRoute = lastRoute.split(/[;?]/)[0];
+            var isBaseRoute = lastRoute.split('/').length <= 2, //There is a leading slash
+                isPathDifferent = lastRoute !== (routeData.controllerParams && routeData.controllerParams.mode ?
+                    routeData.path.slice(0, routeData.path.lastIndexOf('/')) : routeData.path);
+            return !isBaseRoute && isPathDifferent;
+        };
+
+        thisComponent.isPrivateState = function() {
+            var currentRoute = componentContext.routeHistory.getHistory(0) && componentContext.routeHistory.getHistory(0).url,
+                _isPrivateState = !!thisComponent.lastRoute && thisComponent.lastRoute === currentRoute;
+
+            // if _isPrivateState is true there is no difference in the url from the last routeChangeEvent
+            // which means routeChange was triggered by a private state.
+
+            if (!_isPrivateState) {
+                thisComponent.lastRoute = currentRoute;
+            }
+            return _isPrivateState;
+        };
+
+        thisComponent.handleRouteChange = function(routeData) {
+
+            if (thisComponent.isPrivateState()) {
+                /*
+                    routeChange event gets triggerd on privateState changes as well,
+                    because we use private state to load route in flyoutSettings we don't
+                    want to act on the routeChange event if it's trigged from a privateState change.
+
+                    As of now flyouts can not be triggered by privateState
+                */
+
+                return;
+            }
+
+            if (routeData.actionParams && routeData.actionParams.flyout) {
+
+                //if the route contains flyout param
+
+                if (flyoutUtil.isRefresh(componentContext) || thisComponent.isPathChange(routeData)) {
+
+                    /*
+                        if the path changes but doesn't remove the flyout params or
+                        there is no route history (which equates to a refresh)
+                        we need to close the flyout and remove the param.
+
+                        example (this should cause the flyout to close):
+                            /this/is/a/path;flyout=foo
+                            /this/is/a/new/path;flyout=foo
+
+                        (This doesn't mean the flyout param can't change while the flyout is open, just not the underlying route)
+
+                        example (this should not cause the flyout to close):
+                            /this/is/a/path;flyout=foo
+                            /this/is/a/path;flyout=bar
+
+                        The path/flyout actionParam mimics the visual stacking order of the parent page / flyout.
+                        We shouldn't be updating the page below the flyout while the flyout is open which means
+                        we shouldn't be updating the path while the flyout actionParam is present
+                    */
+
+                    //exitFlyout removes the route param and updates the state which will trigger a route change / invoke close()
+
+                    thisComponent.cancel();
+
+                } else {
+
+                    //if the route contains a flyout param open the flyout
+
+                    thisComponent.open(routeData.actionParams.flyout);
+
+                }
+            } else if (thisComponent.applicationFlyoutShownState) {
+
+                //if the route does not contain a flyout param but the flyout is currently isShowing close it and reset lastRoute
+
+                thisComponent.close();
+
+            }
+        };
+
+        thisComponent.open = function(options) {
+            if (!options) {
+                return false;
+            }
+            var _key,
+                _params,
+                privateRoute,
+                state = componentContext.state();
+            //extract key and params
+            //if options is an array it includes the key and parameters that
+            //need to be interpolated
+            if (Array.isArray(options)) {
+                //first value is the key
+                _key = options.shift();
+                _params = setParams(_key, options);
+            } else {
+                //if options is a string it is the key
+                _key = options;
+            }
+            thisComponent.currentFlyout = thisComponent.flyoutSettings[_key];
+            //determine if there is an entry for the current key in the flyoutSettings, and that a route is supplied for that entry
+            if (!thisComponent.currentFlyout || !thisComponent.currentFlyout.route) {
+                return false;
+            }
+            if (flyoutUtil.isFlyout(state) && thisComponent.currentFlyout.backIconEventName && thisComponent.applicationFlyoutShownState) {
+                setupBackButton(thisComponent.currentFlyout);
+            }
+            if (thisComponent.currentFlyout.closeAdaHATKey !== thisComponent.currentCloseAdaHATKey) {
+                setupCloseButton(thisComponent.currentFlyout, _params);
+            }
+            configureFlyout(thisComponent.currentFlyout);
+
+            //interpoloate _params into route if they are present, otherwise just set to route value
+            privateRoute = _params ? componentContext.util.string.interpolate(thisComponent.currentFlyout.route, _params) : thisComponent.currentFlyout.route;
+
+            //using the route privately allows us to follow same code
+            //execution path for exisiting controllers/compoonents/views
+            //while simplply changing the DOM element templates get rendered
+            //into from #content (or existing element) to #flyoutContent
+            componentContext.privateState(privateRoute);
+            return true;
+        };
+
+        thisComponent.close = function() {
+            //hide the flyout and reset defaults
+            var currentFlyoutSettings = thisComponent.currentFlyout || null;
+
+            thisComponent.applicationFlyoutShownState = false;
+            thisComponent.screenSize = flyoutUtil.SIZES.standard;
+            thisComponent.classes = '';
+            thisComponent.displayHeader = true;
+            thisComponent.displayHeaderText = true;
+
+            thisComponent.backButtonShownState = false;
+
+            if (currentFlyoutSettings) {
+                //emit event on close
+                currentFlyoutSettings.closeEventName && componentContext.application.broadcast(currentFlyoutSettings.closeEventName);
+                currentFlyoutSettings.closePrivateState && componentContext.privateState(currentFlyoutSettings.closePrivateState);
+            }
+
+            // If the flyout is because of deeplink, remove the flyout settings cookie stored to stop it from rendering again on subsequent app loads
+            // if (deepLinkFlyoutSettings.isFlyout) {
+            //     deepLinkFlyoutSettingsUtil.removeDeepLinkFlyoutCookie();
+            // }
+        };
+
+        thisComponent.requestPreviousStep = function() {
+            //hide the flyout and reset defaults
+            thisComponent.screenSize = flyoutUtil.SIZES.standard;
+            thisComponent.classes = '';
+            thisComponent.displayHeader = true;
+            thisComponent.displayHeaderText = true;
+            thisComponent.backButtonShownState = false;
+            componentContext.application.broadcast(thisComponent.currentFlyout.backIconEventName);
+        };
+
+        thisComponent.updateFlyOutObject = function(data) {
+            if (data) {
+                Object.keys(data).forEach(function(key) {
+                    thisComponent[key] = data[key];
+                });
+            }
+        };
+
+        thisComponent.exitTask = function(e) {
+            //if the current flyout has a precloseEventName emit that event instead of closing the flyout
+            //this override only applies when this method is called from flyout dom elements ('X' button or overlay)
+            var currentFlyoutSettings = thisComponent.currentFlyout || null,
+                isUserInitiated = !!(e && e.domEvent),
+                isEscKey = !!(e && e.isEscKey),
+                triggerPrecloseEvent = !!(e && e.triggerPrecloseEvent),
+                closed = isUserInitiated || isEscKey || triggerPrecloseEvent;
+
+            if (currentFlyoutSettings && currentFlyoutSettings.precloseEventName && closed) {
+                componentContext.application.broadcast(thisComponent.currentFlyout.precloseEventName, e);
+            } else {
+                var _state = componentContext.state();
+                //remove flyout object from state action params.
+                delete _state.action.params.flyout;
+                //keep the current route w/o flyout params
+                componentContext.state(_state);
+                thisComponent.close();
+            }
+        };
+
+        thisComponent.cancel = thisComponent.exitTask;
+
+    };
+
+});
+define('flyout/blue-spec-shared/applications_flyout',[], function() { return {
+  "name": "APPLICATIONS_FLYOUT",
+  "data": {
+    "screenSize": {
+      "type": "Description"
+    },
+    "classes": {
+      "type": "Description"
+    },
+    "applicationFlyoutShownState": {
+      "type": "OnOff"
+    },
+    "payeeName": {
+      "type": "Description"
+    },
+    "pageHeader": {
+      "type": "Description"
+    },
+    "backButtonShownState": {
+      "type": "Description"
+    }
+  },
+  "actions": {
+    "exitTask": true,
+    "requestPreviousStep": true
+  },
+  "settings": {
+    "exitAda": true,
+    "backLabel": true
+  }
+}; });
+define('flyout/spec/flyoutSpec',['require','blue/util','flyout/blue-spec-shared/applications_flyout'],function(require) {
+  'use strict';
+  var util = require('blue/util'),
+      spec = require('flyout/blue-spec-shared/applications_flyout'),
+      specEnrichment = {
+          data: {
+              flyoutSettings: {
+                  type: 'List'
+              },
+              currentFlyout: {
+                  type: 'List'
+              },
+              hasGradientBar: {
+                  type: 'OnOff'
+              },
+              displayHeader: {
+                  type: 'onOff'
+              },
+              displayHeaderText: {
+                  type: 'onOff'
+              }
+          }
+      };
+  return util.object.merge(spec, specEnrichment);
+});
+define('flyout/lib/common/elementObserver/generateIsInserted',[],function() {
+  'use strict';
+
+  return function generateIsInserted(elements, observeFunc) {
+    return function(elementSelector, callbackFunction) {
+      if (document.querySelector(elementSelector)) {
+        callbackFunction(elementSelector);
+      } else {
+        if (!elements.length) {
+          observeFunc();
+        }
+        elements.push({
+          selector: elementSelector,
+          callback: callbackFunction,
+          timestamp: Date.now()
+        });
+      }
+    }
+  };
+
+});
+define('flyout/lib/common/elementObserver/filterInPlace',[],function() {
+    'use strict';
+  
+    return function filterInPlace(arr, condition) {
+        var index = 0, newIndex = 0;
+        
+        while (index < arr.length) {
+            var val = arr[index];
+            condition(val, index, arr) && (arr[newIndex++] = val);
+            index++;
+        }
+        
+        arr.length = newIndex;
+        return arr;
+    };
+});
+define('flyout/lib/common/elementObserver/MutationElementObserver',['require','./generateIsInserted','./filterInPlace'],function(require) {
+    'use strict';
+
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
+        generateIsInserted = require('./generateIsInserted'),
+        filterInPlace = require('./filterInPlace');
+
+    /**
+     * Observes the document for inserted elements using MutationObserver. When an element matching a previously
+     * provided selector, then its callback is called in the Observer's context.
+     *
+     * This constructor takes an opts object with the following properties
+     *
+     *   ttl {Number} Time-to-live in milliseconds. If a queue selector was never found beyond the ttl, then those
+     *                requests are abandoned.
+     *
+     * Usage:
+     *
+     *   var ElementObserver = require('common/lib/MutationElementObserver');
+     *   var elementObserver = new ElementObserver({
+     *     ttl: 1000 //--> optional
+     *   });
+     *
+     *   // If the element is found within 1 second of calling isInserted method, the callback is executed. If the
+     *   // element is not found within 1 second, the request is abandoned.
+     *   elementObserver.isInserted('#mySelector', function (selector) {
+     *     console.log('Hello,', selector); //--> Hello, #mySelector
+     *   });
+     *
+     * WARNING:
+     *
+     *   It is preferred that this class to be used via ElementObserver, rather than directly requiring it in, e.g.
+     *
+     *     var ElementObserver = require('common/lib/elementObserver');
+     *
+     * NOTE:
+     *
+     *   This class was originally found in elementObserver.js, was split from the setInterval based implementation
+     *   into its own implementation for easier maintenance.
+     *
+     * @param opts
+     * @returns {MutationElementObserver}
+     * @constructor
+     */
+    function MutationElementObserver(opts) {
+        var ttl = opts && opts.ttl || null;
+        var elements = [];
+        var rejectHandler = function() {};
+
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                var addedNodes = mutation.addedNodes || [];
+                if (addedNodes.length) {
+                    elements.forEach(function(element) {
+                        if (document.querySelector(element.selector)) {
+                            if (!element.isInserted) {
+                                element.callback(element.selector);
+                                element.isInserted = true;
+                            }
+                        }
+                    });
+                }
+            });
+            filterInPlace(elements, function(element) {
+                var age = Date.now() - element.timestamp;
+                return !(element.isInserted || ttl && ttl < age);
+            });
+            if (elements.length === 0) {
+                observer.disconnect();
+                rejectHandler();
+            }
+        });
+
+        var isInserted = generateIsInserted(elements, function() {
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+
+        function isInsertedPromise(elementSelector) {
+            return new Promise(function(resolve, reject) {
+                rejectHandler = reject;
+                isInserted(elementSelector, resolve);
+            });
+        }
+
+        return {
+            isInserted: isInserted,
+            isInsertedPromise: isInsertedPromise
+        };
+    }
+
+    return MutationElementObserver;
+});
+define('flyout/lib/common/elementObserver/IntervalElementObserver',['require','./generateIsInserted','./filterInPlace'],function(require) {
+    'use strict';
+
+    var generateIsInserted = require('./generateIsInserted'),
+        filterInPlace = require('./filterInPlace');
+
+    /**
+     * Observes the document for inserted elements at a predetermined interval. When an element matching a previously
+     * provided selector, then its callback is called in the Observer's context.
+     *
+     * This constructor takes an opts object with the following properties
+     *
+     *   ttl {Number} Time-to-live in milliseconds. If a queue selector was never found beyond the ttl, then those
+     *                requests are abandoned.
+     *
+     *   delay {Number} The observation interval in milliseconds. The default is 50 millis.
+     *
+     * Usage:
+     *
+     *   var ElementObserver = require('common/lib/IntervalElementObserver');
+     *   var elementObserver = new ElementObserver({
+     *     ttl: 1000, //--> optional
+     *     delay: 200 //--> optional
+     *   });
+     *
+     *   // If the element is found within 1 second of calling isInserted method, the callback is executed. If the
+     *   // element is not found within 1 second, the request is abandoned.
+     *   elementObserver.isInserted('#mySelector', function (selector) {
+     *     console.log('Hello,', selector); //--> Hello, #mySelector
+     *   });
+     *
+     * WARNING:
+     *
+     *   It is preferred that this class to be used via ElementObserver, rather than directly requiring it in, e.g.
+     *
+     *     var ElementObserver = require('common/lib/elementObserver');
+     *
+     * NOTE:
+     *
+     *   This class was originally found in elementObserver.js, was split from the MutationObserver based implementation
+     *   into its own implementation for easier maintenance.
+     *
+     *   The default interval of 50 milliseconds sounds rather aggressive for legacy browsers that do not even support
+     *   MutationObserver. This was a hardcoded parameter in the previous implementation, and we decided to keep it in
+     *   case some caller was relying on this behavior. We did expose the opts to override this value in the future,
+     *   and, hopefully, users will soon migrate to more modern browsers.
+     *
+     * @param opts
+     * @returns {IntervalElementObserver}
+     * @constructor
+     * @see common/lib/elementObserver
+     */
+    function IntervalElementObserver(opts) {
+        var ttl = opts && opts.ttl || null;
+        var delay = opts && opts.delay || 50;
+        var elements = [];
+        var rejectHandler = function() {};
+        var iid;
+
+        function poll() {
+            elements.forEach(function(element) {
+                var elementSelector = element.selector;
+                var callbackFunction = element.callback;
+                if (document.querySelector(elementSelector)) {
+                    callbackFunction(elementSelector);
+                    element.isInserted = true;
+                }
+            });
+            filterInPlace(elements, function(element) {
+                var age = Date.now() - element.timestamp;
+                return !element.isInserted && (!ttl || ttl < age);
+            });
+            if (elements.length === 0) {
+                clearInterval(iid);
+                rejectHandler();
+            }
+        }
+
+        var isInserted = generateIsInserted(elements, function() {
+            iid = setInterval(poll, delay);
+        });
+
+        function isInsertedPromise(elementSelector) {
+            return new Promise(function(resolve, reject) {
+                rejectHandler = reject;
+                isInserted(elementSelector, resolve);
+            });
+        }
+
+        return {
+            isInserted: isInserted,
+            isInsertedPromise: isInsertedPromise
+        };
+    }
+
+    return IntervalElementObserver;
+});
+define('flyout/lib/common/elementObserver/elementObserver',['require','./MutationElementObserver','./IntervalElementObserver'],function(require) {
+    'use strict';
+
+    var MutationElementObserver = require('./MutationElementObserver');
+    var IntervalElementObserver = require('./IntervalElementObserver');
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+
+    return MutationObserver ? MutationElementObserver : IntervalElementObserver;
+});
+define('flyout/lib/common/setFocus',['require','blue/deferred','blue/$','blue/log','./elementObserver/elementObserver'],function(require) {
+    'use strict'
+
+    var Deferred = require('blue/deferred'),
+        blue$ = require('blue/$'),
+        blueLogger = require('blue/log'),
+        elementObserver = new(require('./elementObserver/elementObserver'))({
+            ttl: 2000,
+            delay: 200
+        });
+
+    function _setFocus(selector, delay, tabindex) {
+
+        var _$ = this && this.context && this.context.$ || blue$,
+            _logger = this && this.context && this.context.logger || blueLogger('[setFocus]'),
+            _delay = delay || 200; // Set default delay interval (in milliseconds) to clear animation
+
+        _logger.debug('focus requested on ', selector, typeof delay === 'number' ? 'with ' + delay + ' delay' : 'without delay');
+
+        var deferred = new Deferred(),
+            $waiting = void 0;
+        try {
+            if (_$(selector).is(':focus') && _$(selector).attr('tabindex') !== '-1') {
+                // If we come in here, that means the target element already exists in the DOM, and that element previously
+                // had focus. In this situation, we want to temporarily move the focus away from the target element, and
+                // then set the focus back to it so that the Screen Reader knows to read the element. When the element
+                // itself changes its state when the user selects it (e.g. a toggle button), the new state should be
+                // announced every time the user selects the element.
+                //
+                // Note that we exclude the case where tabindex on the element is -1. This is because the tabindex === -1
+                // implies that the element of this type is a non-actionable element. Non-actionable element, by nature,
+                // cannot be a toggle control.
+                var waitingId = 'setFocus_' + Date.now(),
+                    waitingSelector = '#' + waitingId;
+                $waiting = _$(waitingSelector);
+                if (!$waiting.length) {
+                    _$(selector).parent().append('<span class="util accessible-text" id="' + waitingId + '" tabindex="-1"></span>');
+                    $waiting = _$(selector).parent().find(waitingSelector);
+                }
+                $waiting.focus();
+            }
+
+            // Using elementObserver, we set focus when the element is inserted into the DOM. If the element already exists,
+            // then elementObserver should call our callback function immediately.
+            elementObserver.isInserted(selector, function() {
+                $waiting && $waiting.remove(); //clean up dummy target if one had been created previously
+                setTimeout(function() {
+                    // Once the elementObserver is notified of DOM mutation, we set focus on the element after a specified
+                    // delay.
+                    try {
+                        var $node = _$(selector);
+                        if (typeof tabindex !== 'undefined') {
+                            $node.attr('tabindex', tabindex);
+                        }
+                        $node.focus();
+                        deferred.resolve(selector);
+                        _logger.debug('focused on ', selector, typeof delay === 'number' ? 'with ' + delay + ' delay' : 'without delay');
+                    } catch (e) {
+                        _logger.warn('Exception while focusing on ', selector, 'Continuing with warning...', e);
+                        blue$(selector).focus();
+                        deferred.resolve(selector);
+                        _logger.debug('focused on ', selector, typeof delay === 'number' ? 'with ' + delay + ' delay' : 'without delay');
+                    }
+                }, _delay);
+            });
+            return deferred.promise;
+        } catch (e) {
+            _logger.error('Failed to setFocus for Selector: "' + selector + '" with this Exception:\n', e);
+        }
+        return false;
+    }
+
+    /**
+     * Accepts either a single option object or a list of arguments, and delegates the execution to _setFocus.
+     */
+    function setFocus() {
+        var arg = arguments[0];
+        if (arguments.length === 1 && typeof arg === 'object') {
+            return _setFocus.call(this, arg.selector || arg.focus, arg.delay, arg.tabindex);
+        }
+        return _setFocus.apply(this, arguments);
+    }
+
+    return setFocus;
+});
+/**
+ * @fileoverview Event handler for scrollable elements that prevent events from propogating to parents.
+ * @author SFO1
+ * @module dashboard/lib/conversationDeck/preventTabbing.js
+ */
+
+define('flyout/lib/common/preventTabbing',['require','blue/$'],function(require) {
+    'use strict'
+    var blue$ = require('blue/$'),
+        me;
+
+    return function PreventTabbing() {
+        me = this;
+        me.$lastFocus = null;
+        me.$parentTarget = null;
+
+        var getVisibleElem = function(elems) {
+            return elems.length && elems.find(function(elem) {
+                return blue$(elem).is(':visible');
+            });
+        };
+
+        var observeOverride = function(elem) {
+            me.overrideObserver.observe(elem, {
+                attributes: true,
+                childList: true,
+                characterData: true
+            });
+        };
+
+        var getFocusableElements = function(node) {
+            var focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]';
+            return node.find(focusableElementsString);
+        };
+
+        var isChildOfModal = function($parent, $child) {
+            return $parent.find($child).length > 0;
+        };
+
+        var getNextTabAbleElement = function(focusedItem, focusableElements, tabbableItems) {
+            var nextElemArray = focusableElements.slice(focusableElements.index(focusedItem) + 1).filter('*[tabindex != "-1"]:visible');
+            var nextElem = tabbableItems.eq(0);
+            if (nextElemArray.length !== 0) {
+                nextElem = nextElemArray.eq(0);
+            }
+            return nextElem;
+        };
+
+        me.preventTabbing = function(event) {
+
+            var key = event.keyCode,
+                visibleOverride = getVisibleElem(me.overrides),
+                tableOverride = getVisibleElem(me.tableOverrides);
+
+            if (visibleOverride && !me.currentOverride) {
+
+                //if an override is visible but there isn't a current override
+                me.currentOverride = blue$(visibleOverride);
+
+                //invoke the onOverrideEnter handler
+                me.onOverrideEnter && me.onOverrideEnter();
+
+                //enable the mutationObserver to observe changes to that override
+                observeOverride(me.currentOverride.get(0));
+            }
+
+            if (tableOverride && document.activeElement.tagName === 'TD') {
+                return;
+            }
+
+            if (key === 9 && !visibleOverride) {
+                var modal = me.$parentTarget;
+                var focusableElements = getFocusableElements(modal);
+                var tabbableItems = focusableElements.filter('*[tabindex != "-1"]:visible');
+                var focusedItem = blue$(document.activeElement);
+
+                var shiftPressed = event.shiftKey;
+
+
+                if (shiftPressed && (focusedItem.is(tabbableItems.eq(0)) || !isChildOfModal(modal, focusedItem))) {
+                    //If shift + tab  and the item is the first tabbleItem in the modal,
+                    //Or shift + tab pressed and the item is somehow not in the modal at all
+                    //focus on last tabbable item.
+                    event.preventDefault();
+                    tabbableItems.eq(tabbableItems.length - 1).focus();
+                } else if (!shiftPressed && (focusedItem.is(tabbableItems.eq(tabbableItems.length - 1)) || !isChildOfModal(modal, focusedItem) || tabbableItems.filter(focusedItem).length === 0)) {
+                    //If tab  and the item is the last tabbleItem in the modal,
+                    //or tab pressed and the item is somehow not in the modal at all
+                    //focus on first tabbable item
+                    //or If element in focus is not in tabbableItems, force first tabbableItems
+                    event.preventDefault();
+
+                    if (me.options && me.options.focusNextInsteadOfFirst) {
+                        // var nextFocusElem = focusableElements[focusableElements.index(focusedItem)+1);
+                        getNextTabAbleElement(focusedItem, focusableElements, tabbableItems).focus();
+                    } else {
+                        tabbableItems.eq(0).focus();
+                    }
+                }
+
+            }
+        };
+
+
+        me.restrict = function(parentTarget, focusTarget, options) {
+            // Store the last focused item
+            me.$lastFocus = options && options.keepFirstFocusTarget && me.$lastFocus ? me.$lastFocus : blue$(document.activeElement);
+            me.options = options;
+
+            if (options && options.overrides) {
+                me.overrides = options.overrides;
+                me.tableOverrides = options.tableOverrides;
+                me.onOverrideEnter = options.onOverrideEnter;
+                me.onOverrideExit = options.onOverrideExit;
+                me.overrideObserver = new MutationObserver(function() {
+                    if (!me.currentOverride.is(':visible')) {
+                        me.overrideObserver.disconnect();
+                        me.onOverrideExit && me.onOverrideExit();
+                        me.currentOverride = null;
+                    }
+                });
+            }
+
+            me.$parentTarget = parentTarget;
+            me.$focusTarget = focusTarget || parentTarget;
+
+            document.removeEventListener('keydown', me.preventTabbing, true);
+            document.addEventListener('keydown', me.preventTabbing, true);
+        }
+
+        /*
+            @function enable
+            @description remove listner preventing tabbing outside of parentTarget
+            @param focusTarget jQuery object (optional) : element to place focus on after removal.
+        */
+        me.enable = function($focusTarget) {
+            // Restore the last focused item (the link that opened the site tour)
+            me.$lastFocus.focus();
+            me.currentOverride = null;
+
+            document.removeEventListener('keydown', me.preventTabbing, true);
+            if ($focusTarget && $focusTarget.focus) {
+                $focusTarget.focus();
+            }
+        }
+    };
+});
+define('flyout/template/flyout',[], function() { return {"v":4,"t":[{"t":7,"e":"div","m":[{"n":"id","f":"flyout","t":13},{"n":"class-has-gradient-bar","f":[{"t":2,"r":".hasGradientBar"}],"t":13},{"n":"class","f":[{"t":2,"r":".screenSize"}," ",{"t":2,"r":".classes"}],"t":13},{"n":"keyup","f":"detectESC","t":70},{"n":"hidden","f":0,"t":13}],"f":[{"t":7,"e":"div","m":[{"n":"id","f":"flyoutOverlay","t":13},{"n":"class","f":"flyout-overlay","t":13},{"n":"click","f":"exitTask","t":70}]}," ",{"t":7,"e":"div","m":[{"n":"id","f":"flyoutContentWrapper","t":13},{"n":"class","f":"flyout-content-wrapper","t":13}],"f":[{"t":4,"f":[{"t":7,"e":"a","m":[{"n":"href","f":"javascript:void(0);","t":13},{"n":"click","f":"requestPreviousStep","t":70},{"n":"id","f":"flyoutBack","t":13},{"n":"class","f":"flyout-back-icon","t":13}],"f":[{"t":7,"e":"blueIcon","m":[{"n":"type","f":"progressleft","t":13},{"n":"id","f":"flyoutBackIcon","t":13}]}," ",{"t":7,"e":"span","m":[{"n":"class","f":"util accessible-text","t":13}],"f":[{"t":2,"r":".backLabel"}]}]}],"n":50,"r":".backButtonShownState"}," ",{"t":4,"f":[{"t":7,"e":"header","m":[{"n":"id","f":"flyoutHeaderContent","t":13},{"n":"class","f":["flyout-header-content ",{"t":4,"f":["flyout-has-back-icon"],"n":50,"r":".backButtonShownState"}],"t":13}],"f":[{"t":4,"f":[{"t":7,"e":"h1","m":[{"n":"class","f":"flyout-header-text","t":13},{"n":"id","f":"flyoutHeaderText","t":13},{"n":"tabindex","f":"-1","t":13}],"f":[{"t":3,"r":".pageHeader"}]}],"n":50,"r":"~/displayHeaderText"}]}],"n":50,"r":"~/displayHeader"}," ",{"t":7,"e":"a","m":[{"n":"href","f":"javascript:void(0);","t":13},{"n":"click","f":"exitTask","t":70},{"n":"id","f":"flyoutClose","t":13},{"n":"class","f":"flyout-close","t":13}],"f":[{"t":7,"e":"blueIcon","m":[{"n":"type","f":"close","t":13},{"n":"id","f":"flyoutCloseIcon","t":13}]}," ",{"t":7,"e":"span","m":[{"n":"class","f":"util accessible-text","t":13}],"f":[{"t":3,"r":".exitAda"}]}]}," ",{"t":7,"e":"div","m":[{"n":"id","f":"flyoutContent","t":13},{"n":"class","f":"flyout-content","t":13}]}," ",{"t":7,"e":"div","m":[{"n":"id","f":"flyoutSpinnerContainer","t":13}]}," ",{"t":7,"e":"div","m":[{"n":"id","f":"flyoutCustomSpinnerContainer","t":13}]}," ",{"t":7,"e":"footer","m":[{"n":"id","f":"flyoutFooterContent","t":13},{"n":"class","f":"flyout-footer-content","t":13}]}]}]}]}; });
+define('flyout/view/specs/flyout',{
+    name: 'APPLICATION_FLYOUT',
+    defaultBindings: true,
+    bindings: {},
+    triggers: {
+        detectESC: {
+            action: 'view.detectESC'
+        }
+    }
+});
+define('flyout/view/flyout',['require','flyout/lib/flyoutUtility','flyout/lib/common/setFocus','blue/root','blue/device/platform','flyout/lib/common/preventTabbing','flyout/template/flyout','flyout/view/specs/flyout','blue-ui/view/elements/icon'],function(require) {
+    'use strict'
+
+    return function FlyoutView(viewContext) {
+        var me = this,
+            flyoutUtil = require('flyout/lib/flyoutUtility'),
+            setFocus = require('flyout/lib/common/setFocus'),
+            root = require('blue/root'),
+            platform = require('blue/device/platform'),
+            Tabbing = require('flyout/lib/common/preventTabbing'),
+            $body,
+            domReadyResolve,
+            animationSupport = false,
+            ARIA_HIDDEN = 'aria-hidden';
+
+        me.domReadyPromise = new Promise(function(resolve) {
+            domReadyResolve = resolve;
+        });
+
+        var PLATFORM_FIREFOX = 'Firefox',
+            $focusSelector = null,
+            _template = require('flyout/template/flyout'),
+            _bridge = require('flyout/view/specs/flyout'),
+            _views = {
+                'blueIcon': require('blue-ui/view/elements/icon')
+            },
+            _model = {
+                screenSize: flyoutUtil.SIZES.standard,
+                classes: '',
+                applicationFlyoutShownState: false,
+                payeeName: '',
+                displayHeader: true,
+                displayHeaderText: true
+            };
+
+        var defaultPreventTabOverrides = ['#sessionTimeoutDialog', '#exit_confirmation_modal', '#confirmation-modal',
+            '#dirtyFormEdit', '#site-exit-warning-overlay', '#twitter-speedBump', '#account-types-footnotes-dialog-modal',
+            '#blx-address-verification-overlay'
+        ];
+
+        /*
+            Repaint an element
+            @func repaint
+            @param $el {jQuery Element}
+        */
+        function repaint($el) {
+            $el.hide().height();
+            $el.show(0);
+        }
+
+        /**
+         * Return Combined list of DOM slectors from current flyout settings and defualt flyout settings
+         * @param {undefined|Array} currentFlyoutSettings Fyout level Tab prevention overrides, array of DOM Ids or not defined
+         * @returns {Array} Array of DOM selectors
+         */
+        function getTabPreventOverrides(currentFlyoutSettings) {
+            var flyoutPreventTabOverrides;
+            var preventTabOverrides = [];
+
+            if (currentFlyoutSettings) {
+                flyoutPreventTabOverrides = currentFlyoutSettings.preventTabOverrides;
+
+                // If there is any override defined in the flyout level, then we will merge this with default list
+                if (flyoutPreventTabOverrides && viewContext.is.array(flyoutPreventTabOverrides)) {
+                    preventTabOverrides = flyoutPreventTabOverrides;
+                }
+            }
+
+            return viewContext.util.array.union(defaultPreventTabOverrides, preventTabOverrides);
+        }
+
+        me.template = _template;
+
+        me.init = function() {
+            me.bridge = _bridge;
+            me.views = _views;
+            me.model = _model;
+
+            me.setFocus = setFocus;
+            me.tabbing = new Tabbing();
+            me.lastFocus = null;
+            me.parentScrollY = 0;
+
+            me.onData('applicationFlyoutShownState', me.toggle);
+        };
+
+        me.onReady = function() {
+            var elem = document.createElement('div');
+            if (elem.style.animationName !== undefined) {
+                animationSupport = true;
+            }
+            $body = root.$('body');
+            me.el = {
+                $appContent: root.$(flyoutUtil.ELEMENTS.siblingContainer),
+                $body: $body,
+                $flyoutHeader: viewContext.$(flyoutUtil.ELEMENTS.header),
+                $contentWrapper: viewContext.$(flyoutUtil.ELEMENTS.contentWrapper),
+                $root: root.$(root)
+            };
+            me.closeButton = viewContext.$(flyoutUtil.ELEMENTS.closeButton);
+            domReadyResolve();
+            /*
+                INVEST-13283
+                Flyout header needs to be repainted after flyoutContent is finished animating in Firefox
+            */
+            me.el.$contentWrapper.on('animationend', function() {
+                if (me.model.displayHeader && platform.name === PLATFORM_FIREFOX) {
+                    repaint(me.el.$flyoutHeader);
+                }
+                if (!me.model.applicationFlyoutShownState) {
+                    me.$element.prop('hidden', true);
+                }
+            });
+        };
+
+
+        me.toggle = function(applicationFlyoutShownState) {
+            me.domReadyPromise.then(function() {
+                if (applicationFlyoutShownState) {
+                    var currentFlyoutSettings = me.model.currentFlyout;
+                    me.$element.prop('hidden', false);
+                    me.$element.removeAttr(ARIA_HIDDEN);
+                    me.el.$appContent.attr(ARIA_HIDDEN, true);
+                    //save the element that was focused before open so when we close we
+                    //can focus on it
+                    me.lastFocus = document.activeElement;
+                    $focusSelector = flyoutUtil.ELEMENTS.header + ' h1';
+                    if (currentFlyoutSettings && currentFlyoutSettings.focusTarget) {
+                        $focusSelector = currentFlyoutSettings.focusTarget;
+                    }
+                    me.setFocus({
+                        selector: $focusSelector,
+                        delay: 50
+                    });
+
+                    me.tabbing.restrict(me.el.$contentWrapper, null, {
+                        overrides: getTabPreventOverrides(currentFlyoutSettings),
+                        onOverrideEnter: function() {
+                            //make flyout invisible to screen readers when a modal opens from flyout
+                            me.$element.attr(ARIA_HIDDEN, true);
+                        },
+                        onOverrideExit: function() {
+                            //modals set this to false when exiting if coming back to flyout from a modal  TODO
+                            //we need to make sure it's set back to true
+                            me.el.$appContent.attr(ARIA_HIDDEN, true);
+                            me.$element.removeAttr(ARIA_HIDDEN);
+                        },
+                        tableOverrides: ['.overview-activity-container td'],
+                        focusNextInsteadOfFirst: true
+                    });
+                    me.parentScrollY = me.el.$root.scrollTop();
+                    $body.addClass(flyoutUtil.CLASS_NAMES.enabled);
+                    /*
+                    INVEST-13283
+                    Similar issue to below, flyout header needs to be repainted after being shown in Firefox
+                */
+                    if (platform.name === PLATFORM_FIREFOX) {
+                        if (me.model.displayHeader) {
+                            repaint(me.el.$flyoutHeader);
+                        }
+                    }
+                    me.el.$appContent.css('filter', 'blur(3px)');
+                    //take the main site content out of body's scroll context...
+                    me.el.$appContent.css('position', 'fixed');
+                    //...while maintaining its offset
+                    me.el.$appContent.css('top', -me.parentScrollY);
+                    me.repaintCloseButton();
+                } else {
+                    !animationSupport && me.$element.prop('hidden', true);
+                    me.$element.attr(ARIA_HIDDEN, true);
+                    me.el.$appContent.removeAttr(ARIA_HIDDEN);
+                    me.el.$appContent.css('filter', '');
+                    me.el.$appContent.css('position', '');
+                    me.lastFocus && me.tabbing.enable(me.lastFocus);
+                    $body.removeClass(flyoutUtil.CLASS_NAMES.enabled);
+                    /*
+                    CXOCORE-3177
+                    When the flyout is showing we blur app content using CSS Blur filter.
+                    It is known that the positioning and stacking context changes for all descendents of an element
+                    that has any filter applied to it, subsequently preventing fixed positioning on these elements.
+
+                    When the filter is removed, functionality is restored in all browsers, however there is a bug in
+                    Firefox that requires the element to be repainted prior to restoring normal behavior.
+                    */
+                    if (platform.name === PLATFORM_FIREFOX) {
+                        repaint(me.el.$appContent);
+                    }
+                    me.el.$root.scrollTop(me.parentScrollY);
+                    me.el.$appContent.css('top', 0);
+                }
+
+                me.setBodyKeyup(applicationFlyoutShownState);
+            });
+        };
+
+        /**
+         * Keydown event handler for flyout, if the key is ESC trigger the cancel method on the flyout component.
+         * @method detectESC
+         * @param {obj} [e] keydown dom event object
+         **/
+        me.detectESC = function(e) {
+            if (e.domEvent && e.domEvent.keyCode === 27 || e.keyCode === 27) { //jQuery events doesn't have e.domEvent but e.keyCode
+                me.bridge.output.emit('trigger', {
+                    value: 'exitTask',
+                    data: {
+                        isEscKey: true
+                    }
+                });
+            }
+        };
+
+        // Add/remove keydown event handler to the body when the flyout is opened/closed
+        me.setBodyKeyup = function(enabled) {
+            if (enabled) {
+                $body.on('keyup', function(e) {
+                    me.detectESC(e);
+                });
+            } else {
+                $body.off();
+            }
+        };
+
+
+        me.repaintCloseButton = function() {
+            flyoutUtil.repaintElementClass(flyoutUtil.ELEMENTS.closeButton, 'hideOvdFlyout');
+        };
+    };
+});
+
+define("flyout/manifest", [],function(){});
